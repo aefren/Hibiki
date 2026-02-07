@@ -43,8 +43,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         self.sound_player = SoundPlayer(sounds_dir)
 
         # Hook into speech system to suppress role labels
-        self._original_getSpeechTextForProperties = speech.getPropertiesSpeech
-        speech.getPropertiesSpeech = self._hook_getSpeechTextForProperties
+        # IMPORTANT: Must hook speech.speech.getPropertiesSpeech (the actual function NVDA uses internally)
+        # Hooking only speech.getPropertiesSpeech (the re-export) doesn't intercept actual speech generation
+        self._original_getSpeechTextForProperties = speech.speech.getPropertiesSpeech
+        speech.speech.getPropertiesSpeech = self._hook_getSpeechTextForProperties
+        # Also update the re-export at speech module level for compatibility
+        speech.getPropertiesSpeech = speech.speech.getPropertiesSpeech
 
         # Hook into speech.speech.speak for browse mode sound support
         self._last_browse_element = None
@@ -65,7 +69,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         # Restore original speech functions
         speech.speech.speak = self._original_speech_speak
         speech.speak = speech.speech.speak
-        speech.getPropertiesSpeech = self._original_getSpeechTextForProperties
+        # Restore the original getPropertiesSpeech function
+        speech.speech.getPropertiesSpeech = self._original_getSpeechTextForProperties
+        speech.getPropertiesSpeech = speech.speech.getPropertiesSpeech
 
         # Remove settings panel
         from gui.settingsDialogs import NVDASettingsDialog
