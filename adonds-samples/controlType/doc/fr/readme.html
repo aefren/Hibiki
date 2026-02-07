@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../style.css" media="screen">
+<title>Say    control type    before label 2025.12.26</title>
+</head>
+<body>
+<h1>controlTypeBeforeLabel : Dire le type de contrôle et son état avant son libellé"</h1>
+<p><br></p>
+<ul>
+<li>Auteur: Pierre-Louis Renaud;</li>
+<li>URL: <a href="https://www.rptools.org/NVDA-Thunderbird/toContact.html">Contact</a> ;</li>
+<li>Cette extension s'installe depuis l'add-on store de NVDA ;</li>
+<li>Compatibilité NVDA : 2019.3 à 2025.x ;</li>
+</ul>
+<h2>Présentation</h2>
+<p>Cette extension flexible permet à NVDA d'annoncer le type et l'état des éléments d'interface utilisateur avant leur libellé.</p>
+<p>Par exemple, on entendra Case à cochercochée avant son  libellé qui peut être long. </p>
+<p>Dans des dialogues comportant beaucoup de cases à cocher ou de boutons radio, ceci peut considérablement améliorer l'efficacité de la vérification d'options ou de paramètres ;</p>
+<p>De plus, les libellés des types et des états des éléments peuvent être raccourcis. Pour "cases à cocher", vous pourrez indiquer "Case", vous entendrez alors : case cochée. </p>
+<p>Pour le moment, l'extension ne prend en charge que les cases à cocher, boutons radio,éléments de menu à cocher et radio. </p>
+<p>D'autres types d'éléments pourront être ajoutés ultérieurement.</p>
+<p>En outre, vous pourrez décider d'utiliser cette extension avec des réglages propres à chaque profil d'application via son dialogue des paramètres.</p>
+<p>En voici un exemple :</p>
+<p>case à cocher coché Dire le texte des éléments en modifiant leur nom (mieux adapté au Braille), Alt+n, </p>
+<p>Sélectionnez le format d'annonce des éléments ci-dessous :</p>
+<p>Cases à cocher et boutons radio : liste déroulante Type état libellé réduit Alt+c</p>
+<p>Menus à cocher et radio : liste déroulante Type état libellé réduit Alt+m</p>
+<p>OK Annuler</p>
+<p>Chaque liste déroulante contient les options suivantes :</p>
+<ul>
+<li>Défaut : l'extension n'intervient pas pour ce type d'élément  et dans le profil de configuration courant ;</li>
+<li>Type état libellé : par exemple Case à cocher cochée Sauvegarder la configuration en quittant, Alt+s  ;</li>
+<li>état libellé : exemple : coché Sauvegarder la configuration en quittant, Alt+s ;</li>
+</ul>
+<h2>Raccourcis-clavier</h2>
+<p>Ces raccourcis, modifiables via le dialogue des gestes de commandes, vous permettent de régler l'extension à votre meilleure convenance.</p>
+<ul>
+<li>Windows+$ : affiche le dialogue de configuration pour le profil actif. <br>
+Ceci permet des réglages propres à chaque application. Veillez donc à créer au préalable un profil de configuration pour l'application où vous souhaitez une intervention de l'extension. ;</li>
+<li>Shift+Windows+$ : pour personnaliser les libellés des états et types d'éléments via le bloc-notes.<br>
+Après l'installation de Control type Before label, l'extension récupère les libellés standards de votre système et les enregistre directement dans le fichier ini. <br>
+Après modification de ce fichier, vous devez redémarrer NVDA ou recharger les extensions.<br>
+Pour réinitialiser ces libellés à leurs valeurs d'origine, vous pouvez supprimer ce fichier ini puis relancer NVDA. Il sera recréé automatiquement.<br>
+Ce ffichier de paramètres    est commun à tous les profils de configuration ; </li>
+</ul>
+<h2>Historique des changements</h2>
+<h3>Version 2025.12.25</h3>
+<p>Correctif par Chai ChaiMee, merci à lui :</p>
+<p>Il n'y a plus d'annonce du type et de l'état du contrôle à la fin du libellé lorsque ceux-ci sont annoncés au début ;</p>
+</body>
+</html>

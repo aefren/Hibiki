@@ -1,0 +1,52 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 'unspokenPy3' '0.4'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2020-08-31 04:49+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: addon\globalPlugins\Unspoken\__init__.py:63 buildVars.py:9
+msgid "Unspoken"
+msgstr ""
+
+#: addon\globalPlugins\Unspoken\__init__.py:134
+msgid "Disable Unspoken"
+msgstr ""
+
+#: addon\globalPlugins\Unspoken\__init__.py:138
+msgid "Enable Unspoken"
+msgstr ""
+
+#: addon\globalPlugins\Unspoken\__init__.py:142
+msgid "Changes the active  / deactive  mode of Unspoken."
+msgstr ""
+
+#: buildVars.py:10
+msgid ""
+"Removes names label from object like,  link, button. It plays different "
+"sounds instead of labels."
+msgstr ""
+
+#. Translators: the label of a message box dialog.
+#: addon\installTasks.py:14
+msgid ""
+"You have installed an old and incompatible version of this addon. Do you "
+"want to uninstall the old version?"
+msgstr ""
+
+#. Translators: the title of a message box dialog.
+#: addon\installTasks.py:16
+msgid "Uninstall incompatible add-on"
+msgstr ""

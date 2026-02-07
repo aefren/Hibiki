@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../style.css" media="screen">
+<title>Rastreador de eventos 25.3</title>
+</head>
+<body>
+<h1>Event Tracker</h1>
+<ul>
+<li>Autores: Joseph Lee, Thiago Seus</li>
+</ul>
+<p>Esse complemento gera informações sobre objetos para os quais os eventos
+foram disparados. As propriedades registradas no modo de log de depuração
+incluem tipo de objeto, nome, função, evento, módulo de aplicativo e
+informações específicas da API de acessibilidade, como accName para objetos
+IAccessible e Automation Id para objetos UIA.</p>
+<p>Notas:</p>
+<ul>
+<li>Esse complemento foi projetado para desenvolvedores e usuários avançados
+  que precisam rastrear eventos provenientes de aplicativos e vários
+  controles.</li>
+<li>Para usar o complemento, o NVDA deve estar registrando em modo de
+  depuração (configurado nas configurações gerais/nível de registro ou
+  reiniciar com o registro de depuração ativado).</li>
+<li>Pode ser possível que os complementos carregados antes do Event Tracker
+  não transmitam o evento para outros complementos, inclusive o Event
+  Tracker. Se isso acontecer, o Event Tracker não conseguirá registrar os
+  eventos.</li>
+<li>Os eventos são tratados a partir de plug-ins globais, módulos de
+  aplicativos, interceptores de árvore e objetos NVDA, nessa ordem.</li>
+</ul>
+<h2>Eventos e suas informações</h2>
+<p>Os seguintes eventos são rastreados e registrados:</p>
+<ul>
+<li>Manipulação de foco: ganhar foco, perder o foco, foco inserido, primeiro
+  plano</li>
+<li>Alterações: nome, valor, estado, descrição, região ativa</li>
+<li>Outros eventos: alerta</li>
+<li>Eventos UIA: controlador para, efeitos de destino de arrastar e soltar,
+  elemento selecionado, status do item, layout invalidado, notificação,
+  alerta do sistema, alteração de texto, dica de ferramenta aberta, janela
+  aberta</li>
+</ul>
+<p>Para cada evento, as seguintes informações serão registradas:</p>
+<ul>
+<li>Nome do evento</li>
+<li>Objeto</li>
+<li>Nome do objeto</li>
+<li>Função do objeto</li>
+<li>Valor ou estado do objeto dependendo dos eventos</li>
+<li>Módulo de aplicativo</li>
+<li>Para objetos IAccessible: nome da conta, ID do filho</li>
+<li>Para objetos UIA: Id de automação, nome da classe, propriedades de
+  notificação se estiver registrando informações de evento de notificação,
+  contagem de filhos para evento de invalidação de layout, propriedades para
+  status de item, arrastar e soltar e efeito de destino, se definido</li>
+</ul>
+<p>Também é possível atribuir um gesto para visualizar os eventos em uma lista
+(menu NVDA/Preferências/Gestos de entrada, categoria Event Tracker). A lista
+salva até 100 eventos mais recentes processados.</p>
+<p>If you find this add-on useful, please <a href="https://github.com/nvaccess/addon-datastore/discussions/2717">review it</a> in the NVDA Add-on
+Store.</p>
+<h2>Version 25.1.0</h2>
+<ul>
+<li>NVDA 2025.1 compatibility.</li>
+<li>NVDA 2024.1 or later is required due to Python 3.11 upgrade.</li>
+<li>Restored limited support for Windows 8.1.</li>
+<li>Made the add-on code more robust with help from Pyright (a Python static
+  type checker).</li>
+<li>NVDA will record actual control role name instead of integers when
+  reporting events.</li>
+</ul>
+<h2>Versão 24.1.0</h2>
+<ul>
+<li>Compatibilidade com o NVDA 2024.1.</li>
+<li>opensourcesys/evtTracker #4: the first event's description no longer
+  missing when first opening the event viewer. Contributed by: WangFeng
+  Huang (hwf1324)</li>
+</ul>
+<h2>Versão 23.02</h2>
+<ul>
+<li>É necessário o NVDA 2022.4 ou posterior.</li>
+<li>É necessário o Windows 10 21H2 (atualização/compilação 19044 de novembro
+  de 2021) ou posterior.</li>
+<li>O evento de alerta (principalmente para objetos IAccessible) será
+  rastreado.</li>
+</ul>
+<h2>Versão 23.01</h2>
+<ul>
+<li>É necessário o NVDA 2022.3 ou posterior.</li>
+<li>É necessário ter o Windows 10 ou posterior, pois o Windows 7, 8 e 8.1 não
+  serão mais suportados pela Microsoft a partir de janeiro de 2023.</li>
+</ul>
+<h2>Versão 22.12</h2>
+<ul>
+<li>Adicionada a caixa de diálogo da lista de eventos (comando não atribuído)
+  para listar até 100 eventos recentes registrados pelo complemento (Thiago
+  Seus).</li>
+<li>Informações adicionais sobre o evento, como propriedades de notificação
+  UIA, são registradas ao mesmo tempo que os eventos.</li>
+</ul>
+<h2>Versão 22.10</h2>
+<ul>
+<li>O NVDA 2022.2 ou posterior é necessário devido à segurança.</li>
+<li>As seguintes alterações de propriedade do UIA são rastreadas: efeito de
+  arrastar e soltar, efeito de destino.</li>
+<li>O texto da propriedade de status do item UIA é registrado.</li>
+<li>O NVDA não reproduzirá mais tons de erro ou parecerá não fazer nada se um
+  objeto não definir um nome de classe de janela.</li>
+</ul>
+<h2>Versão 22.06</h2>
+<ul>
+<li>O NVDA 2021.3 ou posterior é necessário devido à segurança.</li>
+</ul>
+<h2>Versão 21.10</h2>
+<ul>
+<li>O NVDA 2021.2 ou posterior é necessário devido a alterações no NVDA que
+  afetam esse complemento.</li>
+<li>O evento invalidado do layout UIA será rastreado.</li>
+<li>As informações de função e estados do objeto serão semelhantes às
+  informações do desenvolvedor encontradas em versões mais recentes do NVDA.</li>
+</ul>
+<h2>Versão 21.07</h2>
+<ul>
+<li>Lançamento inicial.</li>
+</ul>
+</body>
+</html>

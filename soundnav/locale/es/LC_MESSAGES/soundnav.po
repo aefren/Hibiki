@@ -1,0 +1,50 @@
+# Spanish translations for SoundNav add-on
+# Copyright (C) 2025 SoundNav Team
+# This file is distributed under the same license as the SoundNav package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SoundNav 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-07 00:00+0000\n"
+"PO-Revision-Date: 2025-02-07 00:00+0000\n"
+"Last-Translator: SoundNav Team\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Settings panel title
+msgid "Sound Navigation"
+msgstr "Navegación con Sonidos"
+
+# Checkbox labels
+msgid "&Enable Sound Navigation"
+msgstr "&Habilitar Navegación con Sonidos"
+
+msgid "&Suppress spoken role labels (e.g., 'button', 'link')"
+msgstr "&Suprimir etiquetas de rol habladas (ej., 'botón', 'enlace')"
+
+# Tooltip
+msgid ""
+"When enabled, NVDA will not speak role labels like 'button' or 'link', "
+"playing only the sound. When disabled, both sounds and role labels will be spoken."
+msgstr ""
+"Cuando está habilitado, NVDA no dirá etiquetas de rol como 'botón' o 'enlace', "
+"reproduciendo únicamente el sonido. Cuando está deshabilitado, se escucharán tanto los sonidos como las etiquetas de rol."
+
+# Script description
+msgid "Toggle Sound Navigation on/off"
+msgstr "Activar o desactivar Navegación con Sonidos"
+
+# Status messages
+msgid "Sound Navigation enabled"
+msgstr "Navegación con Sonidos activada"
+
+msgid "Sound Navigation disabled"
+msgstr "Navegación con Sonidos desactivada"
+
+# Script category
+msgid "Sound Navigation"
+msgstr "Navegación con Sonidos"
