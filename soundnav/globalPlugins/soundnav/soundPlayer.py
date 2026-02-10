@@ -28,6 +28,9 @@ class SoundPlayer:
         # Initialize the 3D audio engine
         init_camlorn_audio()
 
+        # Store sounds directory for loading custom sounds later
+        self.sounds_directory = sounds_directory
+
         # Dictionary to store loaded sounds
         self.sounds = {}
 
@@ -101,11 +104,48 @@ class SoundPlayer:
         position_z = AUDIO_DEPTH * -1
 
         # Play each sound with the calculated position
-        for filename in sound_filenames:
-            if filename in self.sounds:
+        for sound_path_or_name in sound_filenames:
+            sound = self._get_or_load_sound(sound_path_or_name)
+            if sound:
                 try:
-                    self.sounds[filename].set_position(position_x, position_y, position_z)
-                    self.sounds[filename].play()
+                    sound.set_position(position_x, position_y, position_z)
+                    sound.play()
                 except Exception as e:
                     # Silently skip sounds that fail to play
                     pass
+
+    def _get_or_load_sound(self, sound_path_or_name):
+        """
+        Get a sound from cache or load it if it's a custom path.
+        
+        Args:
+            sound_path_or_name: Either a filename (default sound) or absolute path (custom sound)
+            
+        Returns:
+            Sound3D object or None if loading fails
+        """
+        # Check if already loaded
+        if sound_path_or_name in self.sounds:
+            return self.sounds[sound_path_or_name]
+        
+        # Determine if it's an absolute path (custom sound) or just a filename
+        if os.path.isabs(sound_path_or_name):
+            # Custom sound with absolute path
+            sound_path = sound_path_or_name
+        else:
+            # Default sound - construct path from sounds directory
+            sound_path = os.path.join(self.sounds_directory, sound_path_or_name)
+        
+        # Check if file exists
+        if not os.path.exists(sound_path):
+            return None
+        
+        # Try to load the sound
+        try:
+            sound = Sound3D(sound_path)
+            sound.set_rolloff_factor(0)
+            # Cache it for future use
+            self.sounds[sound_path_or_name] = sound
+            return sound
+        except Exception:
+            return None

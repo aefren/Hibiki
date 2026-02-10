@@ -1,7 +1,7 @@
 # SoundNav - NVDA Add-on for Spatial Audio Navigation
 
-**Version**: 1.0.0
-**Status**: ✅ Implementation Complete - Ready for Testing
+**Version**: 1.3.4
+**Status**: ✅ Stable Release - Phantom Sound Bug Fixed
 
 ## What is SoundNav?
 

@@ -24,7 +24,9 @@ def init_configuration():
     confspec = {
         "enabled": "boolean(default=True)",
         "suppressRoleLabels": "boolean(default=True)",
+        "suppressStateLabels": "boolean(default=True)",
         "browseModeSound": "boolean(default=True)",
+        "customSounds": "string(default={})",
     }
     config.conf.spec[SOUNDNAV_CONFIG_KEY] = confspec
 
@@ -89,6 +91,19 @@ class SoundNavSettingsPanel(SettingsPanel):
               "playing only the sound. When disabled, both sounds and role labels will be spoken.")
         ))
 
+        # Checkbox to suppress spoken state labels
+        # Translators: Label for checkbox to suppress state labels
+        self.suppressStateLabelsCheckbox = sHelper.addItem(
+            wx.CheckBox(self, label=_("Suppress spoken &state labels (e.g., 'checked', 'visited')"))
+        )
+        self.suppressStateLabelsCheckbox.SetValue(get_config("suppressStateLabels"))
+
+        # Translators: Tooltip for suppress state labels checkbox
+        self.suppressStateLabelsCheckbox.SetToolTip(wx.ToolTip(
+            _("When enabled, NVDA will not speak state labels like 'checked', 'visited', or 'pressed'. "
+              "When disabled, state labels will be spoken normally.")
+        ))
+
         # Checkbox to enable browse mode sounds
         # Translators: Label for checkbox to enable browse mode sounds
         self.browseModeSoundCheckbox = sHelper.addItem(
@@ -102,10 +117,35 @@ class SoundNavSettingsPanel(SettingsPanel):
               "and quick navigation keys (H, K, B, etc.) in browse mode.")
         ))
 
+        # Button to open sound customization dialog
+        # Translators: Button to open sound customization dialog
+        self.customizeSoundsBtn = sHelper.addItem(
+            wx.Button(self, label=_("&Customize Sounds..."))
+        )
+        self.customizeSoundsBtn.Bind(wx.EVT_BUTTON, self._on_customize_sounds)
+
+    def _on_customize_sounds(self, event):
+        """
+        Open the sound customization dialog.
+        """
+        import os
+        from .soundCustomizationDialog import SoundCustomizationDialog
+        
+        # Get sounds directory
+        sounds_dir = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)),
+            "sounds"
+        )
+        
+        dialog = SoundCustomizationDialog(self, sounds_dir)
+        dialog.ShowModal()
+        dialog.Destroy()
+
     def onSave(self):
         """
         Save configuration when user clicks OK or Apply.
         """
         set_config("enabled", self.enabledCheckbox.GetValue())
         set_config("suppressRoleLabels", self.suppressRoleLabelsCheckbox.GetValue())
+        set_config("suppressStateLabels", self.suppressStateLabelsCheckbox.GetValue())
         set_config("browseModeSound", self.browseModeSoundCheckbox.GetValue())
