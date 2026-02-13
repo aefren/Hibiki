@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 # settingsPanel.py - Configuration GUI panel
-# Part of SoundNav add-on for NVDA
+# Part of Hibiki add-on for NVDA
 
 import config
 import gui
@@ -12,7 +11,7 @@ import addonHandler
 addonHandler.initTranslation()
 
 # Configuration key for this add-on
-SOUNDNAV_CONFIG_KEY = "soundnav"
+Hibiki_CONFIG_KEY = "Hibiki"
 
 def init_configuration():
     """
@@ -28,7 +27,7 @@ def init_configuration():
         "browseModeSound": "boolean(default=True)",
         "customSounds": "string(default={})",
     }
-    config.conf.spec[SOUNDNAV_CONFIG_KEY] = confspec
+    config.conf.spec[Hibiki_CONFIG_KEY] = confspec
 
 def get_config(key):
     """
@@ -40,7 +39,7 @@ def get_config(key):
     Returns:
         The configuration value
     """
-    return config.conf[SOUNDNAV_CONFIG_KEY][key]
+    return config.conf[Hibiki_CONFIG_KEY][key]
 
 def set_config(key, value):
     """
@@ -50,17 +49,17 @@ def set_config(key, value):
         key: Configuration key to set
         value: Value to set
     """
-    config.conf[SOUNDNAV_CONFIG_KEY][key] = value
+    config.conf[Hibiki_CONFIG_KEY][key] = value
 
-class SoundNavSettingsPanel(SettingsPanel):
+class HibikiSettingsPanel(SettingsPanel):
     """
-    Settings panel for SoundNav add-on.
+    Settings panel for Hibiki add-on.
 
-    Appears in NVDA's settings dialog under the "Sound Navigation" category.
+    Appears in NVDA's settings dialog under the "Hibiki" category.
     """
 
     # Translators: Title of the settings panel
-    title = _("Sound Navigation")
+    title = _("Hibiki")
 
     def makeSettings(self, settingsSizer):
         """
@@ -72,9 +71,9 @@ class SoundNavSettingsPanel(SettingsPanel):
         sHelper = guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 
         # Checkbox to enable/disable the add-on
-        # Translators: Label for checkbox to enable/disable Sound Navigation
+        # Translators: Label for checkbox to enable/disable Hibiki
         self.enabledCheckbox = sHelper.addItem(
-            wx.CheckBox(self, label=_("&Enable Sound Navigation"))
+            wx.CheckBox(self, label=_("&Enable Hibiki"))
         )
         self.enabledCheckbox.SetValue(get_config("enabled"))
 

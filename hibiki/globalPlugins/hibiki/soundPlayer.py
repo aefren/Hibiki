@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 # soundPlayer.py - 3D audio playback system
-# Part of SoundNav add-on for NVDA
+# Part of Hibiki add-on for NVDA
 
 import os
 import api
@@ -80,6 +79,22 @@ class SoundPlayer:
         desktop = api.getDesktopObject()
         desktop_max_x = desktop.location[2]  # Width
         desktop_max_y = desktop.location[3]  # Height
+
+        # Validate desktop dimensions to prevent division by zero
+        if desktop_max_x <= 0 or desktop_max_y <= 0:
+            position_x = 0.0
+            position_y = 0.0
+            position_z = AUDIO_DEPTH * -1
+            for sound_path_or_name in sound_filenames:
+                sound = self._get_or_load_sound(sound_path_or_name)
+                if sound:
+                    try:
+                        sound.set_position(position_x, position_y, position_z)
+                        sound.play()
+                    except Exception:
+                        pass
+            return
+
         desktop_aspect = float(desktop_max_y) / float(desktop_max_x)
 
         # Calculate center position of object

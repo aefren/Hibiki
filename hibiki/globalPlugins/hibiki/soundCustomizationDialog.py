@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 # soundCustomizationDialog.py - Dialog for customizing control sounds
-# Part of SoundNav add-on for NVDA
+# Part of Hibiki add-on for NVDA
 
 import os
 import json

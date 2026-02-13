@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
-# __init__.py - Main global plugin for SoundNav
-# Part of SoundNav add-on for NVDA
+# __init__.py - Main global plugin for Hibiki
+# Part of Hibikiadd-on for NVDA
 
 import os
 import types
@@ -15,13 +14,13 @@ from scriptHandler import script
 
 from .soundPlayer import SoundPlayer
 from .roleMapper import get_sounds_for_object, ROLE_SOUND_MAP
-from .settingsPanel import init_configuration, get_config, set_config, SoundNavSettingsPanel
+from .settingsPanel import init_configuration, get_config, set_config, HibikiSettingsPanel
 
 addonHandler.initTranslation()
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     """
-    Main global plugin for SoundNav add-on.
+    Main global plugin for Hibikiadd-on.
 
     Provides spatial 3D audio feedback for different control types,
     optionally suppressing spoken role labels to reduce redundancy.
@@ -32,11 +31,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     announcements and preventing phantom sounds from unrelated speech events.
     """
 
-    # Translators: Script category for Sound Navigation commands
-    scriptCategory = _("Sound Navigation")
+    # Translators: Script category for Hibiki commands
+    scriptCategory = _("Hibiki")
 
     def __init__(self, *args, **kwargs):
-        """Initialize the SoundNav add-on."""
+        """Initialize the Hibikiadd-on."""
         super().__init__(*args, **kwargs)
 
         # Initialize configuration
@@ -78,7 +77,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     def createMenu(self):
         """Register the settings panel in NVDA's settings dialog."""
         from gui.settingsDialogs import NVDASettingsDialog
-        NVDASettingsDialog.categoryClasses.append(SoundNavSettingsPanel)
+        NVDASettingsDialog.categoryClasses.append(HibikiSettingsPanel)
 
     def terminate(self):
         """Clean up when add-on is disabled."""
@@ -94,7 +93,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         # Remove settings panel
         from gui.settingsDialogs import NVDASettingsDialog
         try:
-            NVDASettingsDialog.categoryClasses.remove(SoundNavSettingsPanel)
+            NVDASettingsDialog.categoryClasses.remove(HibikiSettingsPanel)
         except ValueError:
             pass
 
@@ -280,11 +279,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     # ===== Scripts (Keyboard Commands) =====
 
     @script(
-        # Translators: Description for toggle Sound Navigation script
-        description=_("Toggle Sound Navigation on/off"),
+        # Translators: Description for toggle Hibiki script
+        description=_("Toggle Hibiki on/off"),
         gesture="kb:NVDA+shift+s"
     )
-    def script_toggleSoundNav(self, gesture):
+    def script_toggleHibiki(self, gesture):
         """
         Toggle the add-on on/off.
 
@@ -295,9 +294,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
         if not enabled:
             # Was disabled, now enabled
-            # Translators: Message when Sound Navigation is enabled
-            ui.message(_("Sound Navigation enabled"))
+            # Translators: Message when Hibiki is enabled
+            ui.message(_("Hibiki enabled"))
         else:
             # Was enabled, now disabled
-            # Translators: Message when Sound Navigation is disabled
-            ui.message(_("Sound Navigation disabled"))
+            # Translators: Message when Hibiki is disabled
+            ui.message(_("Hibiki disabled"))

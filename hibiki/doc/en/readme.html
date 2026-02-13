@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hibiki - Spatial Audio Navigation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .keyboard-shortcut {
+            font-weight: bold;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hibiki - Spatial Audio Navigation</h1>
+    <p><strong>Version:</strong> 0.8.1</p>
+    <p><strong>Author:</strong> Alfred</p>
+
+    <h2>Description</h2>
+    <p>
+        Hibiki is an NVDA add-on that provides audio feedback through 3D spatial sounds
+        for different control types. Instead of relying solely on repetitive verbal announcements,
+        each control type (buttons, links, checkboxes, etc.) plays a distinctive sound
+        that helps identify it more quickly and intuitively.
+    </p>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li><strong>3D Spatial Audio:</strong> Sounds are positioned in space based on the control's
+            location on the screen, providing information about its position (left, right, center).</li>
+        <li><strong>Distinctive Sounds:</strong> Over 40 different control types have unique sounds
+            (buttons, links, checkboxes, menus, text fields, etc.).</li>
+        <li><strong>Role Label Suppression:</strong> Configurable option to suppress verbal role
+            announcements ("button", "link", etc.) and rely solely on sounds.</li>
+        <li><strong>State Feedback:</strong> Additional sounds for states like "checked", "expanded", and "collapsed".</li>
+        <li><strong>Easy Toggle:</strong> Toggle the add-on with a simple keyboard shortcut.</li>
+        <li><strong>Custom Sounds:</strong> Assign custom WAV files to any control type.</li>
+        <li><strong>Browse Mode Support:</strong> 3D sounds during arrow key navigation in web browsers.</li>
+    </ul>
+
+    <h2>Installation</h2>
+    <ol>
+        <li>Download the <code>Hibiki-0.8.1.nvda-addon</code> file</li>
+        <li>Open the file (it will open with NVDA)</li>
+        <li>Follow the instructions to install the add-on</li>
+        <li>Restart NVDA when prompted</li>
+    </ol>
+
+    <h2>Usage</h2>
+
+    <h3>Basic Navigation</h3>
+    <p>
+        Once installed, Hibiki will work automatically as you navigate with NVDA:
+    </p>
+    <ul>
+        <li><strong>Keyboard Navigation:</strong> When pressing Tab, Shift+Tab, or arrow keys,
+            you will hear distinctive sounds for each control you move to.</li>
+        <li><strong>NVDA Object Navigation:</strong> When using NVDA's object navigation commands
+            (NVDA + numpad arrows), you will also hear sounds.</li>
+        <li><strong>Browse Mode:</strong> When navigating web pages with arrow keys or quick
+            navigation keys (k, b, e, h, etc.), spatial sounds play for each element.</li>
+    </ul>
+
+    <h3>Keyboard Shortcuts</h3>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <tr>
+            <th>Shortcut</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td class="keyboard-shortcut">NVDA+Shift+S</td>
+            <td>Toggle Hibiki on/off</td>
+        </tr>
+    </table>
+
+    <h3>Configuration</h3>
+    <p>
+        To access configuration options:
+    </p>
+    <ol>
+        <li>Open the NVDA menu (NVDA+N)</li>
+        <li>Select "Preferences" &gt; "Settings..."</li>
+        <li>In the Settings dialog, find the "Hibiki" category</li>
+    </ol>
+
+    <h4>Available Options</h4>
+    <ul>
+        <li><strong>Enable Hibiki:</strong> Turns the add-on completely on or off.</li>
+        <li><strong>Suppress spoken role labels:</strong> When enabled, NVDA will not say
+            role labels like "button" or "link", playing only the sound.
+            When disabled, both sounds and role labels will be heard.</li>
+        <li><strong>Suppress spoken state labels:</strong> When enabled, NVDA will not say
+            state labels like "checked" or "expanded".</li>
+        <li><strong>Enable browse mode sounds:</strong> Play spatial sounds during arrow key
+            navigation in web browsers and other documents.</li>
+        <li><strong>Customize Sounds:</strong> Assign custom WAV files to specific control types.</li>
+    </ul>
+
+    <h2>Sound Examples</h2>
+    <p>Each control type has a characteristic sound:</p>
+    <ul>
+        <li><strong>Buttons:</strong> Soft click sound</li>
+        <li><strong>Links:</strong> Bubbling water sound</li>
+        <li><strong>Checkboxes:</strong> Switch sound</li>
+        <li><strong>Text Fields:</strong> Typing sound</li>
+        <li><strong>Menus:</strong> Chime sound</li>
+        <li><strong>Tabs:</strong> Paper rustling sound</li>
+        <li><strong>Headings:</strong> Heading notification sound</li>
+        <li><strong>Tables:</strong> Table notification sound</li>
+        <li><strong>And many more...</strong></li>
+    </ul>
+
+    <h2>System Requirements</h2>
+    <ul>
+        <li>NVDA 2019.3 or later</li>
+        <li>Windows 7 or later</li>
+        <li>Sound card compatible with stereo audio</li>
+    </ul>
+
+    <h2>Compatibility</h2>
+    <p>
+        Hibiki has been tested with:
+    </p>
+    <ul>
+        <li>NVDA 2019.3 through 2025.3</li>
+        <li>Web browsers: Firefox, Chrome, Edge</li>
+        <li>Windows applications: File Explorer, Microsoft Office, Settings</li>
+    </ul>
+
+    <h2>Troubleshooting</h2>
+
+    <h3>I don't hear any sounds</h3>
+    <ul>
+        <li>Verify that Hibiki is enabled (NVDA+Shift+S)</li>
+        <li>Check the configuration in Preferences &gt; Settings &gt; Hibiki</li>
+        <li>Make sure the system volume is not muted</li>
+    </ul>
+
+    <h3>Sounds interfere with the speech synthesizer</h3>
+    <ul>
+        <li>You can adjust the synthesizer volume in NVDA settings</li>
+        <li>Consider enabling "Suppress spoken role labels" to reduce redundancy</li>
+    </ul>
+
+    <h3>NVDA behaves strangely after installation</h3>
+    <ul>
+        <li>Try temporarily disabling the add-on (NVDA+Shift+S)</li>
+        <li>If the problem persists, uninstall the add-on and restart NVDA</li>
+        <li>Report the issue to the development team</li>
+    </ul>
+
+    <h2>Credits and Acknowledgments</h2>
+    <p>
+        Hibiki is inspired by the <strong>Unspoken</strong> add-on by <strong>Austin Hicks</strong>,
+        who pioneered the use of 3D spatial sounds for NVDA navigation.
+        We thank him for his innovative work and contribution to the screen reader user community.
+    </p>
+    <p>
+        This add-on uses:
+    </p>
+    <ul>
+        <li><strong>camlorn_audio</strong> - 3D audio library</li>
+        <li><strong>OpenAL Soft</strong> - Spatial audio engine</li>
+        <li><strong>libsndfile</strong> - Audio file loading library</li>
+        <li>Sounds from the original Unspoken add-on</li>
+    </ul>
+
+    <h2>License</h2>
+    <p>
+        This add-on is open source software distributed under the GPL v2 license.
+    </p>
+
+    <h2>Contact and Support</h2>
+    <p>
+        To report issues, suggestions, or contribute to the project:
+    </p>
+    <ul>
+        <li><strong>Website:</strong> <a href="https://github.com/aefren/hibiki">https://github.com/aefren/hibiki</a></li>
+        <li><strong>Report Issues:</strong> <a href="https://github.com/aefren/hibiki/issues">https://github.com/aefren/hibiki/issues</a></li>
+    </ul>
+
+    <hr>
+    <p><em>Last updated: February 2026</em></p>
+</body>
+</html>
+
+
+

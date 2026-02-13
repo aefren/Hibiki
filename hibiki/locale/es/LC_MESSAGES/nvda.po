@@ -1,0 +1,378 @@
+# Spanish translations for Hibiki add-on
+# Copyright (C) 2025 Hibiki Team
+# This file is distributed under the same license as the Hibiki package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Hibiki 0.8.1\n"
+"Report-Msgid-Bugs-To: https://github.com/aefren/hibiki/issues\n"
+"POT-Creation-Date: 2026-02-13 22:46+0900\n"
+"PO-Revision-Date: 2025-02-07 00:00+0000\n"
+"Last-Translator: Hibiki Team\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+# Settings panel title
+# Script category
+#: globalPlugins/hibiki/__init__.py:35
+#: globalPlugins/hibiki/settingsPanel.py:62
+msgid "Hibiki"
+msgstr "Hibiki"
+
+# Script description
+#: globalPlugins/hibiki/__init__.py:283
+msgid "Toggle Hibiki on/off"
+msgstr "Activar o desactivar Hibiki"
+
+# Status messages
+#: globalPlugins/hibiki/__init__.py:298
+msgid "Hibiki enabled"
+msgstr "Hibiki activado"
+
+#: globalPlugins/hibiki/__init__.py:302
+msgid "Hibiki disabled"
+msgstr "Hibiki desactivado"
+
+# Checkbox labels
+#: globalPlugins/hibiki/settingsPanel.py:76
+msgid "&Enable Hibiki"
+msgstr "&Habilitar Hibiki"
+
+#: globalPlugins/hibiki/settingsPanel.py:83
+msgid "&Suppress spoken role labels (e.g., 'button', 'link')"
+msgstr "&Suprimir etiquetas de rol habladas (ej., 'botón', 'enlace')"
+
+# Tooltip
+#: globalPlugins/hibiki/settingsPanel.py:89
+msgid ""
+"When enabled, NVDA will not speak role labels like 'button' or 'link', "
+"playing only the sound. When disabled, both sounds and role labels will "
+"be spoken."
+msgstr ""
+"Cuando está habilitado, NVDA no dirá etiquetas de rol como 'botón' o "
+"'enlace', reproduciendo únicamente el sonido. Cuando está deshabilitado, "
+"se escucharán tanto los sonidos como las etiquetas de rol."
+
+#: globalPlugins/hibiki/settingsPanel.py:96
+msgid "Suppress spoken &state labels (e.g., 'checked', 'visited')"
+msgstr "&Suprimir etiquetas de estado habladas (ej., 'marcado', 'visitado')"
+
+# Tooltip
+#: globalPlugins/hibiki/settingsPanel.py:102
+msgid ""
+"When enabled, NVDA will not speak state labels like 'checked', 'visited',"
+" or 'pressed'. When disabled, state labels will be spoken normally."
+msgstr ""
+"Cuando está habilitado, NVDA no dirá etiquetas de estado como 'marcado', "
+"'visitado' o 'presionado'. Cuando está deshabilitado, las etiquetas de "
+"estado se dirán normalmente."
+
+#: globalPlugins/hibiki/settingsPanel.py:109
+msgid "&Play sounds during browse mode navigation (arrow keys)"
+msgstr "&Reproducir sonidos durante la navegación en modo exploración (flechas)"
+
+#: globalPlugins/hibiki/settingsPanel.py:115
+msgid ""
+"When enabled, 3D sounds will play when navigating web pages with arrow "
+"keys and quick navigation keys (H, K, B, etc.) in browse mode."
+msgstr ""
+"Cuando está habilitado, se reproducirán sonidos 3D al navegar por páginas "
+"web con las flechas y teclas de navegación rápida (H, K, B, etc.) en modo "
+"exploración."
+
+#: globalPlugins/hibiki/settingsPanel.py:122
+msgid "&Customize Sounds..."
+msgstr "&Personalizar sonidos..."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:16
+msgid "Checkbox"
+msgstr "Casilla de verificación"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:17
+msgid "Radio Button"
+msgstr "Botón de opción"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:18
+msgid "Text Field"
+msgstr "Campo de texto"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:19
+msgid "Button"
+msgstr "Botón"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:20
+msgid "Menu Item"
+msgstr "Elemento de menú"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:21
+msgid "Combo Box"
+msgstr "Cuadro combinado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:22
+msgid "List Item"
+msgstr "Elemento de lista"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:23
+msgid "Graphic"
+msgstr "Gráfico"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:24
+msgid "Link"
+msgstr "Enlace"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:25
+msgid "Tree View Item"
+msgstr "Elemento de vista en árbol"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:26
+msgid "Tab"
+msgstr "Pestaña"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:27
+msgid "Slider"
+msgstr "Control deslizante"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:28
+msgid "Clock"
+msgstr "Reloj"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:29
+msgid "Icon"
+msgstr "Icono"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:30
+msgid "Toggle Button"
+msgstr "Botón de conmutación"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:31
+msgid "Menu Button"
+msgstr "Botón de menú"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:32
+msgid "Password Field"
+msgstr "Campo de contraseña"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:33
+msgid "Split Button"
+msgstr "Botón dividido"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:34
+msgid "Heading"
+msgstr "Encabezado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:35
+msgid "Document"
+msgstr "Documento"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:36
+msgid "Application"
+msgstr "Aplicación"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:37
+msgid "Landmark"
+msgstr "Punto de referencia"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:38
+msgid "Article"
+msgstr "Artículo"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:39
+msgid "Region"
+msgstr "Región"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:40
+msgid "Switch"
+msgstr "Interruptor"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:41
+msgid "List"
+msgstr "Lista"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:42
+msgid "Progress Bar"
+msgstr "Barra de progreso"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:43
+msgid "Toolbar"
+msgstr "Barra de herramientas"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:44
+msgid "Popup Menu"
+msgstr "Menú emergente"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:45
+msgid "Property Page"
+msgstr "Página de propiedades"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:46
+msgid "Checked State"
+msgstr "Estado marcado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:47
+msgid "Expanded State"
+msgstr "Estado expandido"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:48
+msgid "Collapsed State"
+msgstr "Estado contraído"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:49
+msgid "Visited State"
+msgstr "Estado visitado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:50
+msgid "Pressed State"
+msgstr "Estado presionado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:51
+msgid "Selected State"
+msgstr "Estado seleccionado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:52
+msgid "Busy State"
+msgstr "Estado ocupado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:53
+msgid "Clickable State"
+msgstr "Estado activable"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:54
+msgid "Has Long Description"
+msgstr "Tiene descripción larga"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:143
+#, python-brace-format
+msgid "The file must be mono (1 channel). This file has {} channels."
+msgstr "El archivo debe ser mono (1 canal). Este archivo tiene {} canales."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:147
+#, python-brace-format
+msgid "Warning: Recommended sample rate is 44100 Hz. This file has {} Hz."
+msgstr "Advertencia: La frecuencia de muestreo recomendada es 44100 Hz. Este archivo tiene {} Hz."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:151
+#, python-brace-format
+msgid "Invalid WAV file: {}"
+msgstr "Archivo WAV inválido: {}"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:153
+#, python-brace-format
+msgid "Error reading file: {}"
+msgstr "Error al leer el archivo: {}"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:170
+msgid "Customize Control Sounds"
+msgstr "Personalizar sonidos de controles"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:187
+msgid ""
+"Select a control type and click 'Change Sound' to assign a custom WAV "
+"file.\n"
+"Sound files must be mono (1 channel) and preferably 44100 Hz."
+msgstr ""
+"Seleccione un tipo de control y haga clic en 'Cambiar sonido' para asignar "
+"un archivo WAV personalizado.\n"
+"Los archivos de sonido deben ser mono (1 canal) y preferiblemente 44100 Hz."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:198
+msgid "Control Type"
+msgstr "Tipo de control"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:200
+msgid "Current Sound"
+msgstr "Sonido actual"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:208
+msgid "&Change Sound..."
+msgstr "&Cambiar sonido..."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:213
+msgid "&Preview"
+msgstr "&Previsualizar"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:218
+msgid "&Restore Default"
+msgstr "&Restaurar predeterminado"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:223
+msgid "Restore &All Defaults"
+msgstr "Restaurar &todos los predeterminados"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:253
+msgid " (custom)"
+msgstr " (personalizado)"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:255
+msgid "None"
+msgstr "Ninguno"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:274
+#: globalPlugins/hibiki/soundCustomizationDialog.py:319
+#: globalPlugins/hibiki/soundCustomizationDialog.py:348
+msgid "Please select a control type first."
+msgstr "Por favor, seleccione primero un tipo de control."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:280
+msgid "Select Sound File"
+msgstr "Seleccionar archivo de sonido"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:281
+msgid "WAV files (*.wav)|*.wav"
+msgstr "Archivos WAV (*.wav)|*.wav"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:295
+msgid "Invalid Sound File"
+msgstr "Archivo de sonido inválido"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:304
+msgid "Warning"
+msgstr "Advertencia"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:313
+msgid "Sound changed successfully."
+msgstr "Sonido cambiado exitosamente."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:330
+msgid "No sound assigned."
+msgstr "No hay sonido asignado."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:334
+msgid "Sound file not found."
+msgstr "Archivo de sonido no encontrado."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:342
+#, python-brace-format
+msgid "Error playing sound: {}"
+msgstr "Error al reproducir el sonido: {}"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:355
+msgid "Default sound restored."
+msgstr "Sonido predeterminado restaurado."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:357
+msgid "Already using default sound."
+msgstr "Ya está usando el sonido predeterminado."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:362
+msgid "All sounds are already set to defaults."
+msgstr "Todos los sonidos ya están configurados como predeterminados."
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:367
+msgid "Are you sure you want to restore all sounds to their defaults?"
+msgstr "¿Está seguro de que desea restaurar todos los sonidos a sus valores predeterminados?"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:368
+msgid "Confirm Restore All"
+msgstr "Confirmar restaurar todos"
+
+#: globalPlugins/hibiki/soundCustomizationDialog.py:375
+msgid "All default sounds restored."
+msgstr "Todos los sonidos predeterminados restaurados."
+
+
+
