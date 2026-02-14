@@ -1,11 +1,11 @@
-# SoundNav - NVDA Add-on for Spatial Audio Navigation
+# Hibiki - NVDA Add-on for Spatial Audio Navigation
 
-**Version**: 1.3.4
+**Version**: 0.8.2
 **Status**: ✅ Stable Release - Phantom Sound Bug Fixed
 
-## What is SoundNav?
+## What is Hibiki?
 
-SoundNav is an NVDA add-on that provides spatial 3D audio feedback for screen reader navigation. Instead of relying solely on spoken announcements like "button", "link", or "checkbox", SoundNav plays distinctive spatial sounds that help you identify controls quickly and intuitively.
+Hibiki is an NVDA add-on that provides spatial 3D audio feedback for screen reader navigation. Instead of relying solely on spoken announcements like "button", "link", or "checkbox", Hibiki plays distinctive spatial sounds that help you identify controls quickly and intuitively.
 
 ## Key Features
 
@@ -20,31 +20,31 @@ SoundNav is an NVDA add-on that provides spatial 3D audio feedback for screen re
 
 ### Installation
 
-1. Download `soundnav-1.0.0.nvda-addon`
+1. Download `Hibiki-0.8.2.nvda-addon`
 2. Double-click to install
 3. Restart NVDA
 4. Navigate with Tab to hear sounds!
 
 ### Configuration
 
-**NVDA menu (NVDA+N) → Preferences → Settings → Sound Navigation**
+**NVDA menu (NVDA+N) → Preferences → Settings → Hibiki**
 
 Options:
-- Enable Sound Navigation
+- Enable Hibiki
 - Suppress spoken role labels
 
 ### Keyboard Shortcut
 
-- **NVDA+Shift+S** - Toggle Sound Navigation on/off
+- **NVDA+Shift+S** - Toggle Hibiki on/off
 
 ## Project Structure
 
 ```
-soundnav/
-├── soundnav/                          # Add-on source code
+hibiki/
+├── hibiki/                          # Add-on source code
 │   ├── manifest.ini                   # Add-on metadata
 │   ├── readme.html                    # User documentation
-│   ├── globalPlugins/soundnav/        # Main plugin
+│   ├── globalPlugins/hibiki/        # Main plugin
 │   │   ├── __init__.py               # Global plugin (169 lines)
 │   │   ├── roleMapper.py             # Role mappings (124 lines)
 │   │   ├── soundPlayer.py            # 3D audio (115 lines)
@@ -53,22 +53,21 @@ soundnav/
 │   │   └── sounds/                   # 25 WAV files
 │   ├── doc/en/                       # English documentation
 │   └── locale/es/LC_MESSAGES/        # Spanish translations
-├── soundnav-1.0.0.nvda-addon         # Installation package (2.43 MB)
-├── TESTING_GUIDE.md                  # Comprehensive testing procedures
-├── IMPLEMENTATION_SUMMARY.md         # Technical implementation details
+├── Hibiki-0.8.2.nvda-addon         # Installation package (4.2 MB)
+├── CHANGELOG.md                      # Changelog
+├── release_notes.md                  # Release notes
 ├── DEVELOPER_NOTES.md                # Developer reference
+├── TRANSLATING.md                    # Translation guide
 └── README.md                         # This file
 ```
 
 ## Documentation
 
-### For Users
-- **readme.html** - Complete user guide in Spanish
-- **TESTING_GUIDE.md** - How to test the add-on
-
 ### For Developers
-- **IMPLEMENTATION_SUMMARY.md** - Architecture and design decisions
 - **DEVELOPER_NOTES.md** - Development guide and API reference
+- **CHANGELOG.md** - Detailed changelog
+- **release_notes.md** - Release notes and updates
+- **TRANSLATING.md** - Translation guide for contributors
 
 ## Supported Control Types
 
@@ -114,17 +113,14 @@ soundnav/
 ## Testing Status
 
 - ✅ Implementation: Complete
-- ⏳ User Testing: Pending
-- ⏳ Compatibility Testing: Pending multiple NVDA versions
-- ⏳ Performance Testing: Pending profiling
-
-**See TESTING_GUIDE.md for detailed testing procedures**
+- ✅ User Testing: In Progress
+- ✅ Compatibility Testing: NVDA 2019.3 to 2025.3
+- ✅ Performance Testing: Optimized
 
 ## Known Limitations
 
 1. **Mouse Events**: Not implemented (keyboard navigation only)
-2. **Custom Sounds**: Not configurable in current version
-3. **Volume Control**: Uses system volume only
+2. **Volume Control**: Uses system volume only
 
 ## Credits
 
@@ -143,55 +139,39 @@ Distributed under the same terms as NVDA (GPL v2).
 Contributions welcome! Please:
 
 1. Read **DEVELOPER_NOTES.md**
-2. Test thoroughly using **TESTING_GUIDE.md**
+2. Test thoroughly using all supported NVDA versions
 3. Submit pull requests with clear descriptions
-
-## Roadmap
-
-### Version 1.1 (Future)
-- [ ] Additional language translations
-- [ ] Custom sound configuration
-- [ ] Volume control slider
-- [ ] Sound theme selection
-- [ ] Performance optimizations
-
-### Version 2.0 (Future)
-- [ ] Mouse support (optional)
-- [ ] Custom role-to-sound mappings
-- [ ] Sound recording tool
-- [ ] Web-based configuration
 
 ## Support
 
 For issues, suggestions, or questions:
 
-- **GitHub Issues**: https://github.com/soundnav/soundnav/issues
-- **GitHub Repository**: https://github.com/soundnav/soundnav
+- **GitHub Issues**: https://github.com/hibiki/hibiki/issues
+- **GitHub Repository**: https://github.com/hibiki/hibiki
 
 ## Changelog
 
-### Version 1.0.0 (2025-02-07)
-- 🎉 Initial release
-- ✅ 40+ control types supported
-- ✅ 3D spatial audio
-- ✅ Configurable role label suppression
-- ✅ NVDA 2019.3 to 2025.3 compatibility
-- ✅ Spanish translations
-- ✅ Comprehensive documentation
+### Version 0.8.2 (2026-02-15)
+- 🐛 Fixed phantom sound bug by refactoring speech hook architecture
+- ⌨️ Added browse mode 3D sound support for arrow key navigation
+- 🎯 Improved audio-speech synchronization
+- ✅ Enhanced event handler isolation
+- ✅ NVDA 2025.3.2 compatibility
 
 ## Files Summary
 
 | File | Size | Description |
 |------|------|-------------|
-| soundnav-1.0.0.nvda-addon | 2.43 MB | Installation package |
-| TESTING_GUIDE.md | 11 KB | Testing procedures |
-| IMPLEMENTATION_SUMMARY.md | 14 KB | Technical details |
+| Hibiki-0.8.2.nvda-addon | 4.2 MB | Installation package |
+| CHANGELOG.md | 8 KB | Detailed changelog |
+| release_notes.md | 5 KB | Release notes |
 | DEVELOPER_NOTES.md | 12 KB | Developer guide |
-| README.md | This file | Project overview |
+| TRANSLATING.md | 4 KB | Translation guide |
+| README.md | — | Project overview |
 
 ## Next Steps
 
-1. **Test the add-on** using TESTING_GUIDE.md
+1. **Test the add-on** with your NVDA installation
 2. **Gather feedback** from NVDA users
 3. **Report issues** on GitHub
 4. **Contribute** improvements
@@ -199,6 +179,6 @@ For issues, suggestions, or questions:
 ---
 
 **Status**: 🚀 Ready for Testing
-**Last Updated**: 2025-02-07
+**Last Updated**: 2026-02-15
 
 Made with ❤️ for the NVDA community

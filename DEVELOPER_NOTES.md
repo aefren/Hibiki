@@ -1,14 +1,14 @@
-# SoundNav Add-on - Developer Notes
+# Hibiki Add-on - Developer Notes
 
 ## Quick Start for Developers
 
 ### Project Structure
 ```
-soundnav/
-├── soundnav/                          # Add-on source
+hibiki/
+├── hibiki/                          # Add-on source
 │   ├── manifest.ini                   # Add-on metadata
 │   ├── readme.html                    # User documentation
-│   ├── globalPlugins/soundnav/        # Main plugin code
+│   ├── globalPlugins/hibiki/        # Main plugin code
 │   │   ├── __init__.py               # Global plugin entry point
 │   │   ├── roleMapper.py             # Role→sound mappings
 │   │   ├── soundPlayer.py            # 3D audio playback
@@ -17,7 +17,7 @@ soundnav/
 │   │   └── sounds/                   # WAV sound files
 │   ├── doc/en/                       # Documentation
 │   └── locale/es/LC_MESSAGES/        # Translations
-├── soundnav-1.0.0.nvda-addon         # Distribution package
+├── hibiki-1.0.0.nvda-addon         # Distribution package
 ├── TESTING_GUIDE.md                  # Testing procedures
 ├── IMPLEMENTATION_SUMMARY.md         # Implementation details
 └── DEVELOPER_NOTES.md                # This file
@@ -27,7 +27,7 @@ soundnav/
 
 ### Modifying Role Mappings
 
-**File**: `soundnav/globalPlugins/soundnav/roleMapper.py`
+**File**: `hibiki/globalPlugins/hibiki/roleMapper.py`
 
 To add a new role mapping:
 ```python
@@ -44,7 +44,7 @@ ROLE_SOUND_MAP = {
 
 ### Adding Configuration Options
 
-**File**: `soundnav/globalPlugins/soundnav/settingsPanel.py`
+**File**: `hibiki/globalPlugins/hibiki/settingsPanel.py`
 
 1. Update `init_configuration()` with new config spec:
 ```python
@@ -70,7 +70,7 @@ set_config("newOption", self.newOptionCheckbox.GetValue())
 
 ### Modifying Sound Playback
 
-**File**: `soundnav/globalPlugins/soundnav/soundPlayer.py`
+**File**: `hibiki/globalPlugins/hibiki/soundPlayer.py`
 
 To change audio positioning:
 ```python
@@ -89,7 +89,7 @@ To add reverb or effects:
 
 ### Adding Event Handlers
 
-**File**: `soundnav/globalPlugins/soundnav/__init__.py`
+**File**: `hibiki/globalPlugins/hibiki/__init__.py`
 
 To handle additional events:
 ```python
@@ -109,7 +109,7 @@ def event_newEvent(self, obj, nextHandler):
 3. Add debug statements in code:
 ```python
 import log
-log.debug(f"SoundNav: Playing sound for {obj.role}")
+log.debug(f"Hibiki: Playing sound for {obj.role}")
 ```
 
 ### Common Issues
@@ -137,13 +137,13 @@ log.debug(f"SoundNav: Playing sound for {obj.role}")
 
 ### Manual Repackaging
 ```bash
-cd soundnav
+cd hibiki
 python -c "
 import zipfile
 import os
 
-addon_name = 'soundnav-1.0.0.nvda-addon'
-source_dir = 'soundnav'
+addon_name = 'hibiki-1.0.0.nvda-addon'
+source_dir = 'hibiki'
 
 with zipfile.ZipFile(addon_name, 'w', zipfile.ZIP_DEFLATED) as zf:
     for root, dirs, files in os.walk(source_dir):
@@ -220,7 +220,7 @@ Watch for:
 
 ### Updating Version
 1. Update `manifest.ini`: `version = X.Y.Z`
-2. Update package name: `soundnav-X.Y.Z.nvda-addon`
+2. Update package name: `hibiki-X.Y.Z.nvda-addon`
 3. Update documentation dates
 4. Add changelog entry
 
@@ -350,8 +350,8 @@ This add-on is distributed under the same license as NVDA itself (GPL v2).
 
 ## Contact
 
-- **GitHub**: https://github.com/soundnav/soundnav
-- **Issues**: https://github.com/soundnav/soundnav/issues
+- **GitHub**: https://github.com/hibiki/hibiki
+- **Issues**: https://github.com/hibiki/hibiki/issues
 
 ---
 
