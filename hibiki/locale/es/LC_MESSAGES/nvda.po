@@ -85,6 +85,14 @@ msgstr ""
 "web con las flechas y teclas de navegación rápida (H, K, B, etc.) en modo "
 "exploración."
 
+#: globalPlugins/hibiki/settingsPanel.py:123
+msgid "Sound &volume (% of speech volume)"
+msgstr "Volumen de &sonido (% del volumen de la voz)"
+
+#: globalPlugins/hibiki/settingsPanel.py:131
+msgid "Adjusts the volume of Hibiki sounds relative to the current speech volume."
+msgstr "Ajusta el volumen de los sonidos de Hibiki en relación con el volumen actual de la voz."
+
 #: globalPlugins/hibiki/settingsPanel.py:122
 msgid "&Customize Sounds..."
 msgstr "&Personalizar sonidos..."
