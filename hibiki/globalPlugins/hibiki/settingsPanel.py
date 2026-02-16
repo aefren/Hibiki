@@ -25,6 +25,7 @@ def init_configuration():
         "suppressRoleLabels": "boolean(default=True)",
         "suppressStateLabels": "boolean(default=True)",
         "browseModeSound": "boolean(default=True)",
+        "soundVolume": "integer(default=100)",
         "customSounds": "string(default={})",
     }
     config.conf.spec[Hibiki_CONFIG_KEY] = confspec
@@ -116,6 +117,25 @@ class HibikiSettingsPanel(SettingsPanel):
               "and quick navigation keys (H, K, B, etc.) in browse mode.")
         ))
 
+        # Sound volume slider
+        # Translators: Label for sound volume slider (relative to speech volume)
+        self.soundVolumeLabel = sHelper.addItem(
+            wx.StaticText(self, label=_("Sound &volume (% of speech volume)"))
+        )
+        self.soundVolumeSlider = sHelper.addItem(
+            wx.Slider(
+                self,
+                value=int(get_config("soundVolume")),
+                minValue=0,
+                maxValue=100,
+                style=wx.SL_HORIZONTAL
+            )
+        )
+        # Translators: Tooltip for sound volume slider
+        self.soundVolumeSlider.SetToolTip(wx.ToolTip(
+            _("Adjusts the volume of Hibiki sounds relative to the current speech volume.")
+        ))
+
         # Button to open sound customization dialog
         # Translators: Button to open sound customization dialog
         self.customizeSoundsBtn = sHelper.addItem(
@@ -148,3 +168,4 @@ class HibikiSettingsPanel(SettingsPanel):
         set_config("suppressRoleLabels", self.suppressRoleLabelsCheckbox.GetValue())
         set_config("suppressStateLabels", self.suppressStateLabelsCheckbox.GetValue())
         set_config("browseModeSound", self.browseModeSoundCheckbox.GetValue())
+        set_config("soundVolume", self.soundVolumeSlider.GetValue())

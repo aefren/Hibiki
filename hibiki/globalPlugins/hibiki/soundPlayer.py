@@ -2,7 +2,12 @@
 # Part of Hibiki add-on for NVDA
 
 import os
+import time
 import api
+import config
+import synthDriverHandler
+
+from .settingsPanel import get_config
 from .camlorn_audio import init_camlorn_audio, Sound3D
 
 # Audio positioning constants
@@ -33,11 +38,24 @@ class SoundPlayer:
         # Dictionary to store loaded sounds
         self.sounds = {}
 
+        # Cached desktop bounds (width, height, timestamp)
+        self._desktop_cache = (0, 0, 0.0)
+
+        # Cached speech volume (volume, timestamp)
+        self._speech_volume_cache = (100.0, 0.0)
+
+        # Debounce settings for rapid repeated sounds
+        self._debounce_ms = 60
+        self._last_play_key = None
+        self._last_play_time = 0.0
+
         # Import role and state mappings
         from .roleMapper import ROLE_SOUND_MAP, STATE_SOUND_MAP
 
         # Preload all role sounds
         for role, filename in ROLE_SOUND_MAP.items():
+            if filename in self.sounds:
+                continue
             sound_path = os.path.join(sounds_directory, filename)
             if os.path.exists(sound_path):
                 try:
@@ -75,21 +93,25 @@ class SoundPlayer:
             obj: NVDA object to play sounds for
             sound_filenames: List of sound filenames to play
         """
-        # Get desktop dimensions for normalization
-        desktop = api.getDesktopObject()
-        desktop_max_x = desktop.location[2]  # Width
-        desktop_max_y = desktop.location[3]  # Height
+        # Get desktop dimensions for normalization (cached)
+        desktop_max_x, desktop_max_y = self._get_desktop_bounds()
 
         # Validate desktop dimensions to prevent division by zero
         if desktop_max_x <= 0 or desktop_max_y <= 0:
             position_x = 0.0
             position_y = 0.0
             position_z = AUDIO_DEPTH * -1
+            effective_volume = self._get_effective_volume()
+
+            if self._should_debounce(sound_filenames, position_x, position_y, position_z):
+                return
+
             for sound_path_or_name in sound_filenames:
                 sound = self._get_or_load_sound(sound_path_or_name)
                 if sound:
                     try:
                         sound.set_position(position_x, position_y, position_z)
+                        sound.set_volume(effective_volume)
                         sound.play()
                     except Exception:
                         pass
@@ -118,16 +140,125 @@ class SoundPlayer:
         # Z: constant depth for all sounds
         position_z = AUDIO_DEPTH * -1
 
+        # Determine effective volume based on speech volume and user setting
+        effective_volume = self._get_effective_volume()
+
+        if self._should_debounce(sound_filenames, position_x, position_y, position_z):
+            return
+
         # Play each sound with the calculated position
         for sound_path_or_name in sound_filenames:
             sound = self._get_or_load_sound(sound_path_or_name)
             if sound:
                 try:
                     sound.set_position(position_x, position_y, position_z)
+                    sound.set_volume(effective_volume)
                     sound.play()
                 except Exception as e:
                     # Silently skip sounds that fail to play
                     pass
+
+    def _get_desktop_bounds(self):
+        """
+        Get cached desktop width and height.
+
+        Returns:
+            tuple: (width, height)
+        """
+        width, height, ts = self._desktop_cache
+        now = time.monotonic()
+        if (now - ts) < 1.0 and width > 0 and height > 0:
+            return width, height
+
+        try:
+            desktop = api.getDesktopObject()
+            width = desktop.location[2]
+            height = desktop.location[3]
+        except Exception:
+            width = 0
+            height = 0
+
+        self._desktop_cache = (width, height, now)
+        return width, height
+
+    def _get_effective_volume(self):
+        """
+        Calculate effective sound volume based on speech volume and user setting.
+
+        Returns:
+            float: Volume value suitable for Sound3D.set_volume (0.0 - 1.0)
+        """
+        try:
+            user_volume = float(get_config("soundVolume"))
+        except Exception:
+            user_volume = 100.0
+
+        speech_volume = self._get_speech_volume()
+
+        # Convert to 0.0 - 1.0 scale and clamp
+        effective = (speech_volume / 100.0) * (user_volume / 100.0)
+        if effective < 0.0:
+            return 0.0
+        if effective > 1.0:
+            return 1.0
+        return effective
+
+    def _get_speech_volume(self):
+        """
+        Get current speech volume from the active synthesizer or config.
+
+        Returns:
+            float: Speech volume (0 - 100)
+        """
+        cached_volume, ts = self._speech_volume_cache
+        now = time.monotonic()
+        if (now - ts) < 0.25:
+            return cached_volume
+
+        volume = None
+        try:
+            synth = synthDriverHandler.getSynth()
+            volume = getattr(synth, "volume", None)
+        except Exception:
+            volume = None
+
+        if volume is None:
+            try:
+                volume = config.conf["speech"]["volume"]
+            except Exception:
+                volume = 100.0
+
+        try:
+            volume = float(volume)
+        except Exception:
+            volume = 100.0
+
+        self._speech_volume_cache = (volume, now)
+        return volume
+
+    def _should_debounce(self, sound_filenames, position_x, position_y, position_z):
+        """
+        Determine whether to skip playing due to rapid repeated sounds.
+
+        Returns:
+            bool: True if playback should be skipped
+        """
+        now = time.monotonic()
+        if self._debounce_ms <= 0:
+            return False
+
+        key = (
+            tuple(sound_filenames),
+            int(position_x * 10),
+            int(position_y * 10),
+            int(position_z * 10),
+        )
+        if self._last_play_key == key and (now - self._last_play_time) * 1000.0 < self._debounce_ms:
+            return True
+
+        self._last_play_key = key
+        self._last_play_time = now
+        return False
 
     def _get_or_load_sound(self, sound_path_or_name):
         """
