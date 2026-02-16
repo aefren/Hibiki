@@ -132,6 +132,42 @@ STATE_SOUND_MAP = {get_state_constant(k): v[0] for k, v in _STATE_DEFINITIONS.it
 STATE_TO_CONTROL_KEY = {get_state_constant(k): v[1] for k, v in _STATE_DEFINITIONS.items()}
 
 
+def get_sounds_for_role_and_states(role, states):
+    """
+    Get list of sound filenames or paths to play for a role and states.
+
+    Args:
+        role: NVDA role constant
+        states: Iterable of NVDA state constants
+
+    Returns:
+        List of sound filenames/paths (strings) to play
+    """
+    sounds = []
+    from .soundCustomizationDialog import get_custom_sounds
+    custom_sounds = get_custom_sounds()
+
+    # Role sound
+    if role in ROLE_SOUND_MAP:
+        control_key = ROLE_TO_CONTROL_KEY.get(role)
+        if control_key and control_key in custom_sounds:
+            sounds.append(custom_sounds[control_key])
+        else:
+            sounds.append(ROLE_SOUND_MAP[role])
+
+    # State sounds
+    if states:
+        for state in states:
+            if state in STATE_SOUND_MAP:
+                control_key = STATE_TO_CONTROL_KEY.get(state)
+                if control_key and control_key in custom_sounds:
+                    sounds.append(custom_sounds[control_key])
+                else:
+                    sounds.append(STATE_SOUND_MAP[state])
+
+    return sounds
+
+
 def get_sounds_for_object(obj):
     """
     Get list of sound filenames or paths to play for a given NVDA object.
@@ -142,29 +178,7 @@ def get_sounds_for_object(obj):
     Returns:
         List of sound filenames/paths (strings) to play
     """
-    sounds = []
-    from .soundCustomizationDialog import get_custom_sounds
-    custom_sounds = get_custom_sounds()
-
-    # Get sound for the object's role
-    if hasattr(obj, 'role') and obj.role in ROLE_SOUND_MAP:
-        # Check for custom sound first
-        control_key = ROLE_TO_CONTROL_KEY.get(obj.role)
-        if control_key and control_key in custom_sounds:
-            sounds.append(custom_sounds[control_key])
-        else:
-            sounds.append(ROLE_SOUND_MAP[obj.role])
-
-    # Get sounds for the object's states
-    if hasattr(obj, 'states'):
-        for state in obj.states:
-            if state in STATE_SOUND_MAP:
-                # Check for custom sound first
-                control_key = STATE_TO_CONTROL_KEY.get(state)
-                if control_key and control_key in custom_sounds:
-                    sounds.append(custom_sounds[control_key])
-                else:
-                    sounds.append(STATE_SOUND_MAP[state])
-
-    return sounds
+    role = getattr(obj, 'role', None)
+    states = getattr(obj, 'states', None)
+    return get_sounds_for_role_and_states(role, states)
 

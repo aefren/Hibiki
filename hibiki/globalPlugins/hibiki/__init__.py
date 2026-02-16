@@ -2,7 +2,6 @@
 # Part of Hibikiadd-on for NVDA
 
 import os
-import types
 import globalPluginHandler
 import addonHandler
 import speech
@@ -13,7 +12,7 @@ import textInfos
 from scriptHandler import script
 
 from .soundPlayer import SoundPlayer
-from .roleMapper import get_sounds_for_object, ROLE_SOUND_MAP
+from .roleMapper import get_sounds_for_object, get_sounds_for_role_and_states, ROLE_SOUND_MAP
 from .settingsPanel import init_configuration, get_config, set_config, HibikiSettingsPanel
 
 addonHandler.initTranslation()
@@ -192,10 +191,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             ):
                 role = attrs.get("role")
                 if role is not None and role in ROLE_SOUND_MAP:
-                    states = attrs.get("states", set()) or set()
-                    # Create a lightweight object for get_sounds_for_object
-                    elem = types.SimpleNamespace(role=role, states=states)
-                    sound_filenames = get_sounds_for_object(elem)
+                    states = attrs.get("states") or set()
+                    sound_filenames = get_sounds_for_role_and_states(role, states)
 
                     if sound_filenames:
                         # Get object at caret for 3D positioning

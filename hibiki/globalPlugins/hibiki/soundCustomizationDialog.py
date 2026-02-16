@@ -97,6 +97,10 @@ DEFAULT_SOUNDS = {
     'haslongdesc': 'haslongdesc.wav',
 }
 
+# Cached custom sounds to avoid repeated JSON parsing on hot paths
+_custom_sounds_cache = {}
+_custom_sounds_cache_raw = None
+
 
 def get_custom_sounds():
     """
@@ -105,13 +109,29 @@ def get_custom_sounds():
     Returns:
         dict: Mapping of control type to custom sound path
     """
+    global _custom_sounds_cache, _custom_sounds_cache_raw
     try:
         custom_json = get_config("customSounds")
-        if custom_json:
-            return json.loads(custom_json)
-    except (json.JSONDecodeError, KeyError):
-        pass
-    return {}
+    except Exception:
+        return {}
+
+    # Fast path: return cached dict if config string unchanged
+    if custom_json == _custom_sounds_cache_raw:
+        return _custom_sounds_cache
+
+    if not custom_json:
+        _custom_sounds_cache = {}
+        _custom_sounds_cache_raw = custom_json
+        return _custom_sounds_cache
+
+    try:
+        _custom_sounds_cache = json.loads(custom_json)
+        _custom_sounds_cache_raw = custom_json
+        return _custom_sounds_cache
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        _custom_sounds_cache = {}
+        _custom_sounds_cache_raw = custom_json
+        return _custom_sounds_cache
 
 
 def set_custom_sounds(custom_sounds):
@@ -121,7 +141,11 @@ def set_custom_sounds(custom_sounds):
     Args:
         custom_sounds: dict mapping control type to sound path
     """
-    set_config("customSounds", json.dumps(custom_sounds))
+    global _custom_sounds_cache, _custom_sounds_cache_raw
+    custom_json = json.dumps(custom_sounds)
+    set_config("customSounds", custom_json)
+    _custom_sounds_cache = dict(custom_sounds)
+    _custom_sounds_cache_raw = custom_json
 
 
 def validate_wav_file(filepath):
@@ -170,7 +194,7 @@ class SoundCustomizationDialog(wx.Dialog):
         super().__init__(parent, title=_("Customize Control Sounds"), size=(500, 400))
         
         self.sounds_directory = sounds_directory
-        self.custom_sounds = get_custom_sounds()
+        self.custom_sounds = dict(get_custom_sounds())
         
         self._create_ui()
         self._populate_list()
