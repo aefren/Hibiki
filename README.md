@@ -1,7 +1,7 @@
 # Hibiki - NVDA Add-on for Spatial Audio Navigation
 
-**Version**: 0.8.2
-**Status**: ✅ Stable Release - Phantom Sound Bug Fixed
+**Version**: 0.9
+**Minimum NVDA Version**: 2025.3.2
 
 ## What is Hibiki?
 
@@ -11,16 +11,18 @@ Hibiki is an NVDA add-on that provides spatial 3D audio feedback for screen read
 
 - 🔊 **Spatial 3D Audio** - Sounds positioned left/right based on screen location
 - 🎵 **40+ Control Types** - Unique sounds for buttons, links, checkboxes, menus, and more
+- 🎶 **Heading Level Sounds** - Distinct sounds for each heading level (H1–H6)
 - 🔇 **Configurable Speech Suppression** - Optional suppression of role labels
 - ⌨️ **Quick Toggle** - Enable/disable with NVDA+Shift+S
+- 🎨 **Sound Customization** - Assign custom WAV files per control type, including per heading level
 - 🌍 **Multi-language** - Spanish translations included
-- 🎯 **NVDA 2019.3 to 2025.3** - Wide version compatibility
+- 🎯 **NVDA 2025.3.2+** - Compatible with current NVDA
 
 ## Quick Start
 
 ### Installation
 
-1. Download `Hibiki-0.8.2.nvda-addon`
+1. Download `Hibiki-0.9.nvda-addon`
 2. Double-click to install
 3. Restart NVDA
 4. Navigate with Tab to hear sounds!
@@ -45,15 +47,16 @@ hibiki/
 │   ├── manifest.ini                   # Add-on metadata
 │   ├── readme.html                    # User documentation
 │   ├── globalPlugins/hibiki/        # Main plugin
-│   │   ├── __init__.py               # Global plugin (169 lines)
-│   │   ├── roleMapper.py             # Role mappings (124 lines)
-│   │   ├── soundPlayer.py            # 3D audio (115 lines)
-│   │   ├── settingsPanel.py          # Configuration GUI (96 lines)
+│   │   ├── __init__.py               # Global plugin entry point
+│   │   ├── roleMapper.py             # Role/state → sound mappings
+│   │   ├── soundPlayer.py            # 3D audio playback engine
+│   │   ├── settingsPanel.py          # Configuration GUI
+│   │   ├── soundCustomizationDialog.py # Custom sound picker dialog
 │   │   ├── camlorn_audio/            # 3D audio library
-│   │   └── sounds/                   # 25 WAV files
+│   │   └── sounds/                   # WAV sound files
 │   ├── doc/en/                       # English documentation
 │   └── locale/es/LC_MESSAGES/        # Spanish translations
-├── Hibiki-0.8.2.nvda-addon         # Installation package (4.2 MB)
+├── Hibiki-0.9.nvda-addon            # Installation package
 ├── CHANGELOG.md                      # Changelog
 ├── release_notes.md                  # Release notes
 ├── DEVELOPER_NOTES.md                # Developer reference
@@ -75,6 +78,9 @@ hibiki/
 - Buttons, Links, Checkboxes, Radio Buttons
 - Edit Fields, Password Fields, Combo Boxes
 - List Items, Menu Items, Tabs
+
+### Headings
+- Heading Level 1 through Heading Level 6 (distinct sound per level)
 
 ### Specialized Controls
 - Tree View Items, Sliders, Graphics
@@ -104,17 +110,15 @@ hibiki/
 
 ### Compatibility
 
-**NVDA Versions**: 2019.3 to 2025.3+
+**Minimum NVDA Version**: 2025.3.2
 
-**Version Detection**: Automatic detection and adaptation for old vs. new `controlTypes` API
-
-**Windows**: 7 or later
+**Windows**: 10 or later
 
 ## Testing Status
 
 - ✅ Implementation: Complete
 - ✅ User Testing: In Progress
-- ✅ Compatibility Testing: NVDA 2019.3 to 2025.3
+- ✅ Compatibility Testing: NVDA 2025.3.2
 - ✅ Performance Testing: Optimized
 
 ## Known Limitations
@@ -151,18 +155,18 @@ For issues, suggestions, or questions:
 
 ## Changelog
 
-### Version 0.8.2 (2026-02-15)
+### Version 0.9 (2026-02-22)
+- 🎶 Heading level-specific sounds (H1–H6 each play a unique sound)
+- 🎨 Per-heading-level sound customization in settings dialog
 - 🐛 Fixed phantom sound bug by refactoring speech hook architecture
 - ⌨️ Added browse mode 3D sound support for arrow key navigation
 - 🎯 Improved audio-speech synchronization
-- ✅ Enhanced event handler isolation
-- ✅ NVDA 2025.3.2 compatibility
 
 ## Files Summary
 
 | File | Size | Description |
 |------|------|-------------|
-| Hibiki-0.8.2.nvda-addon | 4.2 MB | Installation package |
+| Hibiki-0.9.nvda-addon | — | Installation package |
 | CHANGELOG.md | 8 KB | Detailed changelog |
 | release_notes.md | 5 KB | Release notes |
 | DEVELOPER_NOTES.md | 12 KB | Developer guide |
@@ -179,6 +183,6 @@ For issues, suggestions, or questions:
 ---
 
 **Status**: 🚀 Ready for Testing
-**Last Updated**: 2026-02-15
+**Last Updated**: 2026-02-22
 
 Made with ❤️ for the NVDA community

@@ -29,18 +29,27 @@ hibiki/
 
 **File**: `hibiki/globalPlugins/hibiki/roleMapper.py`
 
+Role and state mappings are defined in `_ROLE_DEFINITIONS` and `_STATE_DEFINITIONS` dicts. Each entry is `'ROLE_NAME': ('sound_file.wav', 'control_key')`. The `ROLE_SOUND_MAP` and `ROLE_TO_CONTROL_KEY` dicts are auto-generated from these.
+
 To add a new role mapping:
 ```python
-ROLE_SOUND_MAP = {
+_ROLE_DEFINITIONS = {
     # ... existing mappings ...
-    get_role_constant('NEW_ROLE'): 'new_sound.wav',
+    'NEW_ROLE': ('new_sound.wav', 'newrole'),
 }
 ```
 
 1. Add the sound file to `sounds/` directory
-2. Add the mapping to `ROLE_SOUND_MAP`
-3. Repackage the add-on
-4. Test in NVDA
+2. Add the entry to `_ROLE_DEFINITIONS` in `roleMapper.py`
+3. Add display name in `soundCustomizationDialog.py` `CONTROL_DISPLAY_NAMES` and default in `DEFAULT_SOUNDS`
+4. Repackage the add-on
+5. Test in NVDA
+
+#### Heading Level Sounds
+
+Heading levels use a two-layer mapping:
+- **Old NVDA**: `HEADING1`–`HEADING6` roles map directly to `h1.wav`–`h6.wav` via `_ROLE_DEFINITIONS` with control keys `'heading1'`–`'heading6'`.
+- **Modern NVDA**: A generic `HEADING` role with a `level` attribute. `get_sounds_for_object()` detects the level (int or string) and dynamically resolves the control key (`'heading1'`–`'heading6'`) and sound file (`h1.wav`–`h6.wav`).
 
 ### Adding Configuration Options
 

@@ -193,8 +193,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 role = attrs.get("role")
                 if role is not None and role in ROLE_SOUND_MAP:
                     states = attrs.get("states", set()) or set()
+                    level = attrs.get("level", None)
                     # Create a lightweight object for get_sounds_for_object
-                    elem = types.SimpleNamespace(role=role, states=states)
+                    elem = types.SimpleNamespace(role=role, states=states, level=level)
                     sound_filenames = get_sounds_for_object(elem)
 
                     if sound_filenames:

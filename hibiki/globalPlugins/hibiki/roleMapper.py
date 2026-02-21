@@ -91,12 +91,12 @@ _ROLE_DEFINITIONS = {
     'SPLITBUTTON': ('splitbutton.wav', 'splitbutton'),
     'TOOLBAR': ('toolbar.wav', 'toolbar'),
     'HEADING': ('heading.wav', 'heading'),
-    'HEADING1': ('heading.wav', 'heading'),
-    'HEADING2': ('heading.wav', 'heading'),
-    'HEADING3': ('heading.wav', 'heading'),
-    'HEADING4': ('heading.wav', 'heading'),
-    'HEADING5': ('heading.wav', 'heading'),
-    'HEADING6': ('heading.wav', 'heading'),
+    'HEADING1': ('h1.wav', 'heading1'),
+    'HEADING2': ('h2.wav', 'heading2'),
+    'HEADING3': ('h3.wav', 'heading3'),
+    'HEADING4': ('h4.wav', 'heading4'),
+    'HEADING5': ('h5.wav', 'heading5'),
+    'HEADING6': ('h6.wav', 'heading6'),
     'DOCUMENT': ('document.wav', 'document'),
     'APPLICATION': ('application.wav', 'application'),
     'LANDMARK': ('landmark.wav', 'landmark'),
@@ -127,6 +127,19 @@ _STATE_DEFINITIONS = {
 ROLE_SOUND_MAP = {get_role_constant(k): v[0] for k, v in _ROLE_DEFINITIONS.items()}
 ROLE_TO_CONTROL_KEY = {get_role_constant(k): v[1] for k, v in _ROLE_DEFINITIONS.items()}
 
+# Generic HEADING role constant (modern NVDA uses this + a separate level attribute)
+_HEADING_ROLE_CONSTANT = get_role_constant('HEADING')
+
+# Sound files indexed by heading level (1–6) for modern NVDA
+_HEADING_LEVEL_SOUNDS = {
+    1: 'h1.wav',
+    2: 'h2.wav',
+    3: 'h3.wav',
+    4: 'h4.wav',
+    5: 'h5.wav',
+    6: 'h6.wav',
+}
+
 # Generate state mappings from unified definitions
 STATE_SOUND_MAP = {get_state_constant(k): v[0] for k, v in _STATE_DEFINITIONS.items()}
 STATE_TO_CONTROL_KEY = {get_state_constant(k): v[1] for k, v in _STATE_DEFINITIONS.items()}
@@ -148,12 +161,25 @@ def get_sounds_for_object(obj):
 
     # Get sound for the object's role
     if hasattr(obj, 'role') and obj.role in ROLE_SOUND_MAP:
-        # Check for custom sound first
         control_key = ROLE_TO_CONTROL_KEY.get(obj.role)
+        sound_file = ROLE_SOUND_MAP[obj.role]
+
+        # For the generic HEADING role (modern NVDA), resolve the level-specific
+        # control key and sound. The level can be an int (focus mode) or a string
+        # (browse mode virtual buffer attrs), so we always convert via int().
+        if obj.role == _HEADING_ROLE_CONSTANT:
+            try:
+                level = int(getattr(obj, 'level', None))
+                if level in _HEADING_LEVEL_SOUNDS:
+                    control_key = 'heading{}'.format(level)
+                    sound_file = _HEADING_LEVEL_SOUNDS[level]
+            except (TypeError, ValueError):
+                pass
+
         if control_key and control_key in custom_sounds:
             sounds.append(custom_sounds[control_key])
         else:
-            sounds.append(ROLE_SOUND_MAP[obj.role])
+            sounds.append(sound_file)
 
     # Get sounds for the object's states
     if hasattr(obj, 'states'):
