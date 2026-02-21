@@ -103,11 +103,11 @@ _ROLE_DEFINITIONS = {
     'ARTICLE': ('article.wav', 'article'),
     'REGION': ('region.wav', 'region'),
     'SWITCH': ('switch.wav', 'switch'),
-    'TABLE': ('table.wav', 'table'),
-    'TABLEROW': ('tablerow.wav', 'tablerow'),
-    'TABLECELL': ('tablecell.wav', 'tablecell'),
-    'TABLECOLUMNHEADER': ('tableheader.wav', 'tableheader'),
-    'TABLEROWHEADER': ('tableheader.wav', 'tableheader'),
+    'TABLE': ('snd2.wav', 'table'),
+    'TABLEROW': ('snd11.wav', 'tablerow'),
+    'TABLECELL': ('snd12.wav', 'tablecell'),
+    'TABLECOLUMNHEADER': ('snd13.wav', 'tableheader'),
+    'TABLEROWHEADER': ('snd13.wav', 'tableheader'),
 }
 
 # Unified state definitions: state_name -> (sound_file, control_key)
@@ -123,9 +123,18 @@ _STATE_DEFINITIONS = {
     'HASLONGDESC': ('haslongdesc.wav', 'haslongdesc'),
 }
 
-# Generate role mappings from unified definitions
-ROLE_SOUND_MAP = {get_role_constant(k): v[0] for k, v in _ROLE_DEFINITIONS.items()}
-ROLE_TO_CONTROL_KEY = {get_role_constant(k): v[1] for k, v in _ROLE_DEFINITIONS.items()}
+# Generate role mappings from unified definitions.
+# Uses try/except per entry to skip roles that don't exist in this NVDA version,
+# preventing a fatal import crash on older or newer NVDA builds.
+ROLE_SOUND_MAP = {}
+ROLE_TO_CONTROL_KEY = {}
+for _role_name, _role_data in _ROLE_DEFINITIONS.items():
+    try:
+        _const = get_role_constant(_role_name)
+        ROLE_SOUND_MAP[_const] = _role_data[0]
+        ROLE_TO_CONTROL_KEY[_const] = _role_data[1]
+    except AttributeError:
+        pass
 
 # Generic HEADING role constant (modern NVDA uses this + a separate level attribute)
 _HEADING_ROLE_CONSTANT = get_role_constant('HEADING')

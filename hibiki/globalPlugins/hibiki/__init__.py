@@ -1,5 +1,5 @@
 # __init__.py - Main global plugin for Hibiki
-# Part of Hibikiadd-on for NVDA
+# Part of Hibiki add-on for NVDA
 
 import os
 import types
@@ -20,7 +20,7 @@ addonHandler.initTranslation()
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     """
-    Main global plugin for Hibikiadd-on.
+    Main global plugin for Hibiki add-on.
 
     Provides spatial 3D audio feedback for different control types,
     optionally suppressing spoken role labels to reduce redundancy.
@@ -35,7 +35,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     scriptCategory = _("Hibiki")
 
     def __init__(self, *args, **kwargs):
-        """Initialize the Hibikiadd-on."""
+        """Initialize the Hibiki add-on."""
         super().__init__(*args, **kwargs)
 
         # Initialize configuration
@@ -77,7 +77,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     def createMenu(self):
         """Register the settings panel in NVDA's settings dialog."""
         from gui.settingsDialogs import NVDASettingsDialog
-        NVDASettingsDialog.categoryClasses.append(HibikiSettingsPanel)
+        if HibikiSettingsPanel not in NVDASettingsDialog.categoryClasses:
+            NVDASettingsDialog.categoryClasses.append(HibikiSettingsPanel)
 
     def terminate(self):
         """Clean up when add-on is disabled."""

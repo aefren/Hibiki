@@ -48,6 +48,10 @@ CONTROL_DISPLAY_NAMES = {
     'toolbar': _("Toolbar"),
     'popupmenu': _("Popup Menu"),
     'propertypage': _("Property Page"),
+    'table': _("Table"),
+    'tablerow': _("Table Row"),
+    'tablecell': _("Table Cell"),
+    'tableheader': _("Table Header"),
     'checked': _("Checked State"),
     'expanded': _("Expanded State"),
     'collapsed': _("Collapsed State"),
@@ -96,6 +100,10 @@ DEFAULT_SOUNDS = {
     'toolbar': 'toolbar.wav',
     'popupmenu': 'popupmenu.wav',
     'propertypage': 'propertypage.wav',
+    'table': 'snd2.wav',
+    'tablerow': 'snd11.wav',
+    'tablecell': 'snd12.wav',
+    'tableheader': 'snd13.wav',
     'checked': 'checked.wav',
     'expanded': 'expanded.wav',
     'collapsed': 'collapsed.wav',
@@ -255,8 +263,7 @@ class SoundCustomizationDialog(wx.Dialog):
         
         for control_key, display_name in CONTROL_DISPLAY_NAMES.items():
             index = self.list_ctrl.InsertItem(self.list_ctrl.GetItemCount(), display_name)
-            self.list_ctrl.SetItemData(index, hash(control_key) & 0xFFFFFFFF)
-            
+
             # Get current sound (custom or default)
             if control_key in self.custom_sounds:
                 sound_path = self.custom_sounds[control_key]

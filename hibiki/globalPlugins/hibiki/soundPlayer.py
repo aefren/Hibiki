@@ -2,6 +2,7 @@
 # Part of Hibiki add-on for NVDA
 
 import os
+import threading
 import api
 from .camlorn_audio import init_camlorn_audio, Sound3D
 
@@ -30,8 +31,9 @@ class SoundPlayer:
         # Store sounds directory for loading custom sounds later
         self.sounds_directory = sounds_directory
 
-        # Dictionary to store loaded sounds
+        # Dictionary to store loaded sounds and a lock to protect concurrent access
         self.sounds = {}
+        self._sounds_lock = threading.Lock()
 
         # Import role and state mappings
         from .roleMapper import ROLE_SOUND_MAP, STATE_SOUND_MAP
@@ -77,6 +79,8 @@ class SoundPlayer:
         """
         # Get desktop dimensions for normalization
         desktop = api.getDesktopObject()
+        if desktop is None:
+            return
         desktop_max_x = desktop.location[2]  # Width
         desktop_max_y = desktop.location[3]  # Height
 
@@ -132,35 +136,38 @@ class SoundPlayer:
     def _get_or_load_sound(self, sound_path_or_name):
         """
         Get a sound from cache or load it if it's a custom path.
-        
+
+        Thread-safe: uses a lock to prevent race conditions when lazily
+        loading custom sounds from concurrent speech hook calls.
+
         Args:
             sound_path_or_name: Either a filename (default sound) or absolute path (custom sound)
-            
+
         Returns:
             Sound3D object or None if loading fails
         """
-        # Check if already loaded
+        # Fast path: check cache without acquiring the lock
         if sound_path_or_name in self.sounds:
             return self.sounds[sound_path_or_name]
-        
+
         # Determine if it's an absolute path (custom sound) or just a filename
         if os.path.isabs(sound_path_or_name):
-            # Custom sound with absolute path
             sound_path = sound_path_or_name
         else:
-            # Default sound - construct path from sounds directory
             sound_path = os.path.join(self.sounds_directory, sound_path_or_name)
-        
-        # Check if file exists
+
         if not os.path.exists(sound_path):
             return None
-        
-        # Try to load the sound
-        try:
-            sound = Sound3D(sound_path)
-            sound.set_rolloff_factor(0)
-            # Cache it for future use
-            self.sounds[sound_path_or_name] = sound
-            return sound
-        except Exception:
-            return None
+
+        with self._sounds_lock:
+            # Re-check inside the lock (double-checked locking pattern)
+            if sound_path_or_name in self.sounds:
+                return self.sounds[sound_path_or_name]
+
+            try:
+                sound = Sound3D(sound_path)
+                sound.set_rolloff_factor(0)
+                self.sounds[sound_path_or_name] = sound
+                return sound
+            except Exception:
+                return None
