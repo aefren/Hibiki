@@ -1,6 +1,6 @@
 # Hibiki - NVDA Add-on for Spatial Audio Navigation
 
-**Version**: 0.9
+**Version**: 0.9.1
 **Minimum NVDA Version**: 2025.3.2
 
 ## What is Hibiki?
@@ -22,7 +22,7 @@ Hibiki is an NVDA add-on that provides spatial 3D audio feedback for screen read
 
 ### Installation
 
-1. Download `Hibiki-0.9.nvda-addon`
+1. Download `Hibiki-0.9.1.nvda-addon`
 2. Double-click to install
 3. Restart NVDA
 4. Navigate with Tab to hear sounds!
@@ -56,7 +56,7 @@ hibiki/
 │   │   └── sounds/                   # WAV sound files
 │   ├── doc/en/                       # English documentation
 │   └── locale/es/LC_MESSAGES/        # Spanish translations
-├── Hibiki-0.9.nvda-addon            # Installation package
+├── Hibiki-0.9.1.nvda-addon          # Installation package
 ├── CHANGELOG.md                      # Changelog
 ├── release_notes.md                  # Release notes
 ├── DEVELOPER_NOTES.md                # Developer reference
@@ -155,18 +155,25 @@ For issues, suggestions, or questions:
 
 ## Changelog
 
+### Version 0.9.1 (2026-02-22)
+- Import safety: no crash if a role constant is missing in the installed NVDA version
+- Table sounds: tables, rows, cells, and headers now play sounds
+- Thread safety in sound cache
+- Duplicate settings panel registration prevented
+- Null desktop guard in 3D audio playback
+
 ### Version 0.9 (2026-02-22)
-- 🎶 Heading level-specific sounds (H1–H6 each play a unique sound)
-- 🎨 Per-heading-level sound customization in settings dialog
-- 🐛 Fixed phantom sound bug by refactoring speech hook architecture
-- ⌨️ Added browse mode 3D sound support for arrow key navigation
-- 🎯 Improved audio-speech synchronization
+- Heading level-specific sounds (H1–H6 each play a unique sound)
+- Per-heading-level sound customization in settings dialog
+- Fixed phantom sound bug by refactoring speech hook architecture
+- Added browse mode 3D sound support for arrow key navigation
+- Improved audio-speech synchronization
 
 ## Files Summary
 
 | File | Size | Description |
 |------|------|-------------|
-| Hibiki-0.9.nvda-addon | — | Installation package |
+| Hibiki-0.9.1.nvda-addon | — | Installation package |
 | CHANGELOG.md | 8 KB | Detailed changelog |
 | release_notes.md | 5 KB | Release notes |
 | DEVELOPER_NOTES.md | 12 KB | Developer guide |

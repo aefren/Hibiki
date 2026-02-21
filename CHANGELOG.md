@@ -2,6 +2,17 @@
 
 Todas las versiones notables de este proyecto serán documentadas en este archivo.
 
+## [0.9.1] - 2026-02-22
+
+### Fixed
+- **Import safety**: The add-on no longer crashes on load if the installed NVDA version does not define one of the listed role constants. Role mappings are now built entry by entry, skipping unknown roles.
+- **Table sounds**: Tables, table rows, table cells, and table headers now play distinct sounds (`snd2.wav`, `snd11.wav`, `snd12.wav`, `snd13.wav`). These control types are also available for customization in the sound settings dialog.
+- **Thread safety**: The sound cache is now protected with a `threading.Lock` to prevent race conditions when custom sounds are lazily loaded from concurrent speech hooks.
+- **Settings panel deduplication**: The Hibiki panel is no longer registered twice in NVDA's settings dialog if the add-on reloads without a clean `terminate()`.
+- **Null desktop guard**: `play_for_object()` now returns early if `api.getDesktopObject()` returns `None`, preventing an unhandled `AttributeError` during NVDA startup.
+- **Dead code removed**: Removed unused `SetItemData` call in the sound customization dialog.
+- **Typos**: Fixed three instances of `Hibikiadd-on` → `Hibiki add-on` in `__init__.py`.
+
 ## [0.9] - 2026-02-22
 
 ### Agregado
