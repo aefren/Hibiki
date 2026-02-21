@@ -1,0 +1,33 @@
+# Build artifacts
+*.nvda-addon
+*.pot
+*.mo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+dist/
+build/
+
+# Claude / AI
+CLAUDE.md
+.claude/
+
+# Reference and Samples (per user request)
+docs/
+adonds-samples/
+
+# OS specific
+Thumbs.db
+.DS_Store
+nul
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
