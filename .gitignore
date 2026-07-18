@@ -14,10 +14,6 @@ build/
 CLAUDE.md
 .claude/
 
-# Reference and Samples (per user request)
-docs/
-adonds-samples/
-
 # OS specific
 Thumbs.db
 .DS_Store
