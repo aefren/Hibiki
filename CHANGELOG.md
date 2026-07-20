@@ -2,6 +2,14 @@
 
 Todas las versiones notables de este proyecto serán documentadas en este archivo.
 
+## [0.9.2] - 2026-07-20
+
+### Fixed
+- **Quick navigation sound lag (b/shift+b, h, k, etc.)**: 3D sounds during browse-mode quick navigation now play at the position of the control being announced instead of the previously focused control. NVDA's `_quickNavScript` calls `item.report()` before `item.moveTo()` (NVDA issue #8831), so the virtual caret was still on the old control when Hibiki read its position — every sound landed one step behind. Sounds are now positioned via the control field's own `controlIdentifier_docHandle`/`controlIdentifier_ID` (resolved through `getNVDAObjectFromIdentifier`), falling back to the text range currently being spoken, then to the caret only as a last resort.
+- **Shared-line controls all sounding at the same spot**: Multiple controls on one line (e.g. several links in a sentence) previously all played at the position of the first object on that line. Resolving each control field by its own identifier fixes this too.
+- **Over-eager role/state label suppression**: "Suppress spoken role labels" and "Suppress spoken state labels" now only hide labels that Hibiki actually has a sound for. Roles without a mapped sound (dialog, grouping, window, ...) and states without one (unavailable, read only, required, ...) are spoken normally again instead of being silently dropped.
+- **Label suppression respects the browse mode sounds switch**: with "Play sounds during browse mode navigation" turned off, role and state labels are spoken again in browse mode instead of being hidden with no sound to replace them. Focus-mode suppression is unaffected by that switch.
+
 ## [0.9.1] - 2026-02-22
 
 ### Fixed

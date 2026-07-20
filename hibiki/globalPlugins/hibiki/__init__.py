@@ -13,7 +13,7 @@ import textInfos
 from scriptHandler import script
 
 from .soundPlayer import SoundPlayer
-from .roleMapper import get_sounds_for_object, ROLE_SOUND_MAP
+from .roleMapper import get_sounds_for_object, ROLE_SOUND_MAP, STATE_SOUND_MAP
 from .settingsPanel import init_configuration, get_config, set_config, HibikiSettingsPanel
 
 addonHandler.initTranslation()
@@ -48,6 +48,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         )
         self.sound_player = SoundPlayer(sounds_dir)
 
+        # State shared by the speech hooks below. Must exist before any hook
+        # is installed, since speech can fire between installations.
+        self._speaking_textinfo = None
+        self._in_control_field_speech = False
+
         # ── Hook 1: getPropertiesSpeech ──
         # Suppresses role/state labels from speech output when options are enabled.
         # This is the low-level function that generates text like "button", "link", etc.
@@ -71,6 +76,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         # Also update the re-export at speech module level for compatibility
         speech.getControlFieldSpeech = speech.speech.getControlFieldSpeech
 
+        # ── Hook 4: speakTextInfo ──
+        # Records the text range currently being announced. Browse mode uses it
+        # to position sounds on the range actually being spoken, which is not
+        # always where the virtual caret is (see _resolve_control_field_object).
+        self._original_speakTextInfo = speech.speech.speakTextInfo
+        speech.speech.speakTextInfo = self._hook_speakTextInfo
+        speech.speakTextInfo = speech.speech.speakTextInfo
+
         # Register settings panel
         self.createMenu()
 
@@ -90,6 +103,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
         speech.speech.getControlFieldSpeech = self._original_getControlFieldSpeech
         speech.getControlFieldSpeech = speech.speech.getControlFieldSpeech
+
+        speech.speech.speakTextInfo = self._original_speakTextInfo
+        speech.speakTextInfo = speech.speech.speakTextInfo
 
         # Remove settings panel
         from gui.settingsDialogs import NVDASettingsDialog
@@ -113,25 +129,80 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         """
         Hook for speech.speech.getPropertiesSpeech.
 
-        Removes role and state labels from speech output when corresponding
-        options are enabled. This prevents NVDA from saying "button", "link",
-        "checked", "visited", etc.
+        Hides role and state labels from speech output when the corresponding
+        options are enabled, but only where a sound actually replaces the label.
+        A role or state Hibiki has no sound for stays spoken, otherwise the
+        information would be lost entirely.
 
         Uses *args/**kwargs to match the original function's signature exactly,
         avoiding TypeError when NVDA omits the 'reason' parameter.
         Wrapped in try/except to never break NVDA's speech pipeline.
         """
         try:
-            if self.is_enabled():
+            if self.is_enabled() and self._sounds_replace_labels_here():
                 if get_config("suppressRoleLabels"):
-                    if 'role' in kwargs:
-                        del kwargs['role']
+                    self._suppress_role_label(kwargs)
                 if get_config("suppressStateLabels"):
-                    if 'states' in kwargs:
-                        del kwargs['states']
+                    self._suppress_state_labels(kwargs)
         except Exception:
             pass
         return self._original_getSpeechTextForProperties(*args, **kwargs)
+
+    def _sounds_replace_labels_here(self):
+        """
+        Whether a sound actually stands in for suppressed labels right now.
+
+        Browse mode control field speech only gets sounds while the
+        browseModeSound option is on; hiding labels there without a sound
+        playing would leave controls unannounced entirely.
+        """
+        if self._in_control_field_speech:
+            return get_config("browseModeSound")
+        return True
+
+    def _suppress_role_label(self, propertyValues):
+        """
+        Hide the spoken role label when Hibiki has a sound for that role.
+
+        The role is moved to the private '_role' key rather than deleted:
+        getPropertiesSpeech still needs the role to decide how to phrase the
+        states and whether the value should be spoken at all, but it only
+        speaks the role name when the public 'role' key is present.
+
+        Args:
+            propertyValues: The kwargs dict passed to getPropertiesSpeech (mutated in place)
+        """
+        role = propertyValues.get('role')
+        if role is None or role not in ROLE_SOUND_MAP:
+            # No sound for this role, so keep the spoken label.
+            return
+        propertyValues.setdefault('_role', role)
+        del propertyValues['role']
+
+    def _suppress_state_labels(self, propertyValues):
+        """
+        Hide the spoken state labels Hibiki has sounds for, keeping the rest.
+
+        States without a sound (unavailable, read only, required, invalid
+        entry, ...) carry information no sound conveys, so they stay spoken.
+
+        The full state set is preserved under the private '_states' key, which
+        getPropertiesSpeech uses to work out the *negative* states ("not
+        checked"). Dropping it would make NVDA report negative states based on
+        the filtered set and announce them incorrectly.
+
+        Args:
+            propertyValues: The kwargs dict passed to getPropertiesSpeech (mutated in place)
+        """
+        states = propertyValues.get('states')
+        if not states:
+            return
+        remaining = {state for state in states if state not in STATE_SOUND_MAP}
+        if len(remaining) == len(states):
+            # Nothing here has a sound, so leave the speech untouched.
+            return
+        propertyValues.setdefault('_states', states)
+        propertyValues['states'] = remaining
 
     def _hook_getObjectPropertiesSpeech(self, obj, reason=controlTypes.OutputReason.QUERY, _prefixSpeechCommand=None, **allowedProperties):
         """
@@ -200,24 +271,136 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     sound_filenames = get_sounds_for_object(elem)
 
                     if sound_filenames:
-                        # Get object at caret for 3D positioning
-                        obj = self._get_browse_mode_object()
+                        # Resolve the control being announced for 3D positioning
+                        obj = self._resolve_control_field_object(attrs)
                         if obj is not None:
                             self.sound_player.play_for_object(obj, sound_filenames)
         except Exception:
             pass
 
-        return self._original_getControlFieldSpeech(
-            attrs, ancestorAttrs, fieldType, formatConfig, extraDetail, reason
-        )
+        # Flag the context while NVDA generates the field's speech: the role
+        # and state labels come from getPropertiesSpeech calls made inside the
+        # original function, and the suppression hook needs to know they belong
+        # to browse mode (see _sounds_replace_labels_here).
+        previous = self._in_control_field_speech
+        self._in_control_field_speech = True
+        try:
+            return self._original_getControlFieldSpeech(
+                attrs, ancestorAttrs, fieldType, formatConfig, extraDetail, reason
+            )
+        finally:
+            self._in_control_field_speech = previous
+
+    def _hook_speakTextInfo(self, *args, **kwargs):
+        """
+        Hook for speech.speech.speakTextInfo.
+
+        Remembers the text range being announced while the original function
+        runs, so getControlFieldSpeech can position sounds on it. The previous
+        value is restored afterwards to stay correct if calls ever nest.
+        """
+        previous = self._speaking_textinfo
+        try:
+            self._speaking_textinfo = args[0] if args else kwargs.get("info")
+        except Exception:
+            self._speaking_textinfo = None
+        try:
+            return self._original_speakTextInfo(*args, **kwargs)
+        finally:
+            self._speaking_textinfo = previous
+
+    def _resolve_control_field_object(self, attrs):
+        """
+        Find the NVDA object a browse mode control field belongs to.
+
+        The virtual caret cannot be trusted here: quick navigation
+        (b, shift+b, h, k, ...) calls item.report() *before* item.moveTo()
+        (NVDA issue #8831), so while this runs the caret still sits on the
+        previously visited control. Positioning from the caret would play every
+        sound one step behind the control being announced.
+
+        Strategies, most to least precise:
+          1. The control field's own identifier, which names the exact control
+             even when several share one line.
+          2. The start of the text range currently being spoken, which is the
+             navigation target for browse modes without such identifiers.
+          3. The caret, as a last resort.
+
+        Args:
+            attrs: The control field attributes dict
+
+        Returns:
+            NVDA object to position the sound at, or None if unavailable
+        """
+        obj = self._object_from_control_identifier(attrs)
+        if obj is not None:
+            return obj
+
+        info = self._speaking_textinfo
+        if info is not None:
+            try:
+                obj = info.NVDAObjectAtStart
+                if obj is not None:
+                    return obj
+            except Exception:
+                pass
+
+        return self._get_browse_mode_object()
+
+    def _object_from_control_identifier(self, attrs):
+        """
+        Resolve a control field to its NVDA object via its virtual buffer id.
+
+        Virtual buffers tag every control field with the document handle and
+        node id it came from, which maps straight back to the real object.
+        Browse modes that are not virtual buffers do not provide these, in
+        which case the caller falls back to another strategy.
+
+        Args:
+            attrs: The control field attributes dict
+
+        Returns:
+            NVDA object, or None if the identifier is unavailable or stale
+        """
+        try:
+            doc_handle = attrs.get("controlIdentifier_docHandle")
+            node_id = attrs.get("controlIdentifier_ID")
+            if doc_handle is None or node_id is None:
+                return None
+            interceptor = self._get_tree_interceptor()
+            resolve = getattr(interceptor, "getNVDAObjectFromIdentifier", None)
+            if resolve is None:
+                return None
+            return resolve(int(doc_handle), int(node_id))
+        except Exception:
+            return None
+
+    def _get_tree_interceptor(self):
+        """
+        Get the tree interceptor owning the document being announced.
+
+        Prefers the one attached to the text range being spoken, since the
+        focus may have moved on by the time this runs.
+
+        Returns:
+            Tree interceptor, or None if unavailable
+        """
+        info = self._speaking_textinfo
+        interceptor = getattr(info, "obj", None) if info is not None else None
+        if interceptor is not None and hasattr(interceptor, "getNVDAObjectFromIdentifier"):
+            return interceptor
+        try:
+            focus = api.getFocusObject()
+            return getattr(focus, "treeInterceptor", None)
+        except Exception:
+            return None
 
     def _get_browse_mode_object(self):
         """
         Get the NVDA object at the current browse mode caret position.
 
-        Used for 3D audio positioning when navigating in browse mode.
-        The caret position is already updated when getControlFieldSpeech
-        is called, so this returns the correct object.
+        Last-resort fallback for 3D positioning: the caret lags behind during
+        quick navigation, so prefer _resolve_control_field_object.
 
         Returns:
             NVDA object at caret, or None if unavailable
